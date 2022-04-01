@@ -1,16 +1,16 @@
 # Site settings
-title: 기계인간 John Grib
-url: "https://johngrib.github.io"
+title: Kyu 위키형 블로그
+url: "https://kyupid.github.io"
 baseurl: ""
 description: >
-    기계인간 블로그
+    Kyu 블로그
 
 # My information
-email: johngrib82@gmail.com
-author: 기계인간 John Grib
-profile: 유물론자
-twitter_username: John_Grib
-github_username: johngrib
+email: iamscvv@gmail.com
+author: Kyu
+profile: 이것저것 격없이
+twitter_username:
+github_username: kyupid
 comment-support: utterances
 
 # Build settings
@@ -38,13 +38,13 @@ collections:
 
 # Comment Service
 disqus:
-  id: johngrib
-  shortname: johngrib
+  id: 
+  shortname: 
 utterances:
-  repo: johngrib/johngrib.github.io
+  repo: kyupid/kyupid.github.io
   issue-term: url
   label: Comment
-  branch: master
+  branch: main
 
 google_analytics:
   ua: G-RK3M0SSQ6G
@@ -53,9 +53,9 @@ google_analytics:
 google_adsense:
   client: ca-pub-3675948545737694
 
-blame: "https://github.com/johngrib/johngrib.github.io/blame/master/_wiki"
-edit: "https://github.com/johngrib/johngrib.github.io/edit/master/_wiki"
-issue: "https://github.com/johngrib/johngrib.github.io/issues/new"
+blame: "https://github.com/kyupid/kyupid.github.io/blame/main/_wiki"
+edit: "https://github.com/kyupid/kyupid.github.io/edit/main/_wiki"
+issue: "https://github.com/kyupid/kyupid.github.io/issues/new"
 
 timezone: "Asia/Seoul"
 
