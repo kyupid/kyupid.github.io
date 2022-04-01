@@ -3,8 +3,8 @@ layout  : wiki
 title   : 테스트, 123, abc
 summary : 테스트입니다
 date    : 2022-04-01 12:53:46 +0900
-updated : 
-tag     : hellowowowowoworowe
+updated : 2022-04-01 12:53:46 +0900
+tag     : 
 toc     : true
 public  : true
 parent  : [[test]]
