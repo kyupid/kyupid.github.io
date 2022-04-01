@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "GnuPG 사용법",
+ "summary": "GnuPG, the GNU Privacy Guard",
+ "parent": "cmd",
+ "url": "/wiki/gpg",
+ "updated": "2022-02-24 17:08:48 +0900",
+ "children": []
+}

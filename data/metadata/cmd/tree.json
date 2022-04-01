@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "tree 명령어",
+ "summary": "디렉토리의 내용을 트리 구조로 보여준다",
+ "parent": "cmd",
+ "url": "/wiki/cmd/tree",
+ "updated": "2022-03-06 21:02:05 +0900",
+ "children": []
+}

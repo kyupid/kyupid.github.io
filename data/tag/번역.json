@@ -1,0 +1,22 @@
+[
+ "clojure/evaluation",
+ "clojure/guide/reading-clojure-characters",
+ "clojure/higher-order-functions",
+ "clojure/macros",
+ "clojure/reference/transient",
+ "Go-Blog-translation",
+ "golang-debugging-what-you-deploy",
+ "golang-mod",
+ "golang-subtests",
+ "golang-the-laws-of-reflection",
+ "java-jigsaw-quick-start",
+ "java-remainder-operator",
+ "java/object-equals",
+ "java/synchronized",
+ "King-O-The-Cats",
+ "Object-hashCode",
+ "Object-toString",
+ "Software-Engineering-Code-of-Ethics",
+ "summary-the-transaction-concept",
+ "THE-NEXT-BIG-BLUE-COLLAR-JOB-IS-CODING"
+]

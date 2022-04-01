@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "옵저버 패턴(Observer Pattern)",
+ "summary": "상태 변화를 감시자에게 통지한다",
+ "parent": "pattern",
+ "url": "/wiki/pattern/observer",
+ "updated": "2021-10-10 10:24:41 +0900",
+ "children": []
+}

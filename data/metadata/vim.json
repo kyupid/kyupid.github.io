@@ -1,0 +1,28 @@
+{
+ "type": "wiki",
+ "title": "Vim",
+ "parent": "index",
+ "url": "/wiki/vim",
+ "updated": "2022-01-03 23:39:21 +0900",
+ "children": [
+  "ideavim",
+  "two-views-of-vim",
+  "vim-asciidoc-setting",
+  "vim-clang",
+  "vim-conceallevel",
+  "vim-configure-split",
+  "vim-f-hangul",
+  "vim-rest-console",
+  "vim-tagbar-with-markdown",
+  "vim-tmux-t-ut",
+  "vim-update-book-progress",
+  "vim-with-space-char",
+  "vim-ycm-python3",
+  "vim/coc-nvim",
+  "vim/help",
+  "vim/match",
+  "vim/persistent-undo",
+  "vim/ultisnips",
+  "vimwiki"
+ ]
+}

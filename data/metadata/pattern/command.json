@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "커맨드 패턴 (Command Pattern)",
+ "summary": "요구 사항을 객체로 캡슐화한다",
+ "parent": "pattern",
+ "url": "/wiki/pattern/command",
+ "updated": "2021-10-10 01:14:51 +0900",
+ "children": []
+}

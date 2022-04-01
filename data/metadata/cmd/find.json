@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "find 명령어",
+ "summary": "walk a file hierarchy",
+ "parent": "cmd",
+ "url": "/wiki/cmd/find",
+ "updated": "2022-02-06 17:47:54 +0900",
+ "children": []
+}

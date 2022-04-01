@@ -1,0 +1,21 @@
+{
+ "type": "wiki",
+ "title": "tools",
+ "summary": "도구 및 사이트 소개",
+ "parent": "index",
+ "url": "/wiki/tools",
+ "updated": "2018-02-06 07:05:19 +0900",
+ "children": [
+  "aws",
+  "cmd",
+  "dbeaver",
+  "dumang-dk6-keyboard",
+  "Excel",
+  "google-home",
+  "gradle",
+  "h2database",
+  "intellij",
+  "iterm",
+  "useful-site"
+ ]
+}

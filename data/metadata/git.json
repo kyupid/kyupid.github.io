@@ -1,0 +1,18 @@
+{
+ "type": "wiki",
+ "title": "git",
+ "summary": "",
+ "parent": "root-index",
+ "url": "/wiki/git",
+ "updated": "2022-01-16 13:54:12 +0900",
+ "children": [
+  "git-alias",
+  "git-prompt",
+  "git-study-with-action",
+  "git-tutorial",
+  "git/examples",
+  "git/fetch",
+  "git/index",
+  "git/log"
+ ]
+}

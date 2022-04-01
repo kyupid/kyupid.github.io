@@ -1,0 +1,4 @@
+[
+ "ternary-operator-and-null-pointer-exception",
+ "use-java-primitive-type-for-performance"
+]

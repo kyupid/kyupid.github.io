@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "Gradle",
+ "summary": "Gradle Build Tool",
+ "parent": "tools",
+ "url": "/wiki/gradle",
+ "updated": "2021-08-18 17:03:02 +0900",
+ "children": []
+}

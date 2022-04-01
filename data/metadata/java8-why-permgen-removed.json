@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "JDK 8에서 Perm 영역은 왜 삭제됐을까",
+ "summary": "",
+ "parent": "java",
+ "url": "/wiki/java8-why-permgen-removed",
+ "updated": "2021-10-17 18:42:01 +0900",
+ "children": []
+}

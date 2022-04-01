@@ -1,0 +1,5 @@
+[
+ "pattern/command",
+ "pattern/state",
+ "pattern/template-method"
+]

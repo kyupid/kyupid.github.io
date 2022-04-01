@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "Neovim에서 Clojure 코드를 작성하자",
+ "summary": "vim-iced까지 이르는 삽질과 고민의 기록",
+ "parent": "clojure",
+ "url": "/wiki/clojure/vim-setting",
+ "updated": "2022-03-31 19:37:06 +0900",
+ "children": []
+}

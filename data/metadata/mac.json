@@ -1,0 +1,13 @@
+{
+ "type": "wiki",
+ "title": "macOS",
+ "summary": "macOS 사용 노하우 모음",
+ "parent": "index",
+ "url": "/wiki/mac",
+ "updated": "2022-02-26 23:27:54 +0900",
+ "children": [
+  "hammerspoon",
+  "mac/keyboard-shortcuts",
+  "mac/screenshot-png-to-jpg"
+ ]
+}
