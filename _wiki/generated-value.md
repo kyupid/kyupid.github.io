@@ -1,6 +1,6 @@
 ---
 layout  : wiki
-title   : @GenerateValue strategy 전략
+title   : `@GenerateValue` strategy 전략
 summary : 디비에서 생성할꺼면 IDENTITY를 써라
 date    : 2022-04-06 11:58:05 +0900 
 updated : 2022-04-06 11:58:07 +0900
