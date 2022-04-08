@@ -1,9 +1,0 @@
-{
- "type": "wiki",
- "title": "가용성(Availability)",
- "summary": "시스템이 다운되지 않고 정상 운영되는 시간의 비율",
- "parent": "what",
- "url": "/wiki/availability",
- "updated": "2021-08-16 20:36:00 +0900",
- "children": []
-}

@@ -1,5 +1,5 @@
 [
- "/wiki/use-lazy-jpa",
- "/wiki/missing-table-hibernate-sequence",
- "/wiki/generated-value"
+ "/wiki/jpa/use-lazy-jpa",
+ "/wiki/jpa/missing-table-hibernate-sequence",
+ "/wiki/jpa/generated-value"
 ]

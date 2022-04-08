@@ -1,0 +1,9 @@
+{
+ "type": "wiki",
+ "title": "JPA N+1 문제",
+ "summary": "지연 로딩 전략을 써라",
+ "parent": "jpa",
+ "url": "/wiki/jpa/cherry-pick",
+ "updated": "2022-04-09 01:09:57 +0900",
+ "children": []
+}

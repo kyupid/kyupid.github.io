@@ -1,9 +1,0 @@
-{
- "type": "wiki",
- "title": "ioreg 명령어",
- "summary": "show I/O Kit registry (BSD)",
- "parent": "cmd",
- "url": "/wiki/ioreg-cmd",
- "updated": "2021-10-17 18:44:15 +0900",
- "children": []
-}

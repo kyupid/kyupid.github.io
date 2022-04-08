@@ -1,0 +1,13 @@
+{
+ "type": "wiki",
+ "title": "jpa",
+ "summary": "jpa 모음",
+ "parent": "root-index",
+ "url": "/wiki/jpa",
+ "updated": "2022-04-09 01:05:28 +0900",
+ "children": [
+  "jpa/use-lazy-jpa",
+  "jpa/missing-table-hibernate-sequence",
+  "jpa/generated-value"
+ ]
+}

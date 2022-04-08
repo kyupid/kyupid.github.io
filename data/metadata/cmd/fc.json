@@ -1,9 +1,0 @@
-{
- "type": "wiki",
- "title": "fc 명령어",
- "summary": "명령어 입력/편집, 나열, 재실행 등을 할 수 있다",
- "parent": "cmd",
- "url": "/wiki/cmd/fc",
- "updated": "2022-02-07 22:26:52 +0900",
- "children": []
-}
