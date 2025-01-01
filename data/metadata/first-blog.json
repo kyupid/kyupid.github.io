@@ -1,0 +1,10 @@
+{
+ "type": "wiki",
+ "title": "첫번째 문서",
+ "summary": "vimwiki 를 활용한 jekyll 블로그 첫번째 글",
+ "parent": "index",
+ "url": "/wiki/first-blog",
+ "updated": "2025-01-02 00:59:53 +0900",
+ "resource": "91E2B4BB-49FE-4073-B2F1-A301CCDD25CA",
+ "children": []
+}
