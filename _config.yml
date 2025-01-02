@@ -1,13 +1,13 @@
 # Site settings
-title: 기계인간 John Grib
-url: "https://johngrib.github.io"
+title: kyupid wiki
+url: "https://kyupid.github.io"
 baseurl: ""
 description: >
-    기계인간 블로그
+    kyupid 블로그
 
 # My information
-email: johngrib82@gmail.com
-author: 기계인간 John Grib
+email: kywoopid@gmail.com
+author: kyupid
 profile: 유물론자
 twitter_username: John_Grib
 github_username: johngrib
