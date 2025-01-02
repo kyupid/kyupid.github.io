@@ -3,7 +3,7 @@ layout  : wiki
 title   : GNU Stow
 summary : symlink farm manager
 date    : 2025-01-02 22:34:57 +0900
-updated : 2025-01-02 22:53:35 +0900
+updated : 2025-01-02 23:45:39 +0900
 tag     : 
 toc     : true
 public  : true
@@ -77,5 +77,7 @@ lrwxr-xr-x    1 kyupid  staff      20  7 Jan 12:35 .vimrc -> ~/test/vim/.vimrc
 ```
 `stow vim` 을 치면, 자동으로 위와같이 링크해준다. 
 
-
-
+### 사용법
+```bash
+stow -t ~ neovim
+```
