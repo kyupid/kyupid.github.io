@@ -4,7 +4,7 @@ title   : wiki
 toc     : true
 public  : true
 comment : false
-updated : 2025-01-03 23:04:17 +0900
+updated : 2025-01-04 11:01:25 +0900
 regenerate: true
 ---
 
@@ -12,4 +12,5 @@ regenerate: true
 
 - [[gnu-stow]]
 - [[bash]]
+- [[neovim]]
 
