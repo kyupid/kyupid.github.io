@@ -3,7 +3,7 @@ layout  : wiki
 title   : Neovim
 summary : neovim 그리고 lua 
 date    : 2025-01-04 10:40:51 +0900
-updated : 2025-01-04 11:00:22 +0900
+updated : 2025-01-04 11:45:03 +0900
 tag     : 
 toc     : true
 public  : true
@@ -15,8 +15,7 @@ resource: 65443906-EAD4-48E0-8498-27CE424CEE26
 {:toc}
 
 # Neovim
-
-vim 은 메인테이너가 소수라 업데이트가 느리다.  
+  
 neovim 은 vim 을 fork 한 오픈소스로 커뮤니티 버전 vim 이리고 보면될거 같다.
 vim 업데이트는 팔로업 하되, 독자적인 feature 들이 있는 것이다.
 
