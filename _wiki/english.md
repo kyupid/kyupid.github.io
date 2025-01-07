@@ -3,7 +3,7 @@ layout  : wiki
 title   : English
 summary : 영어 관련 모든 것
 date    : 2025-01-07 11:03:21 +0900
-updated : 2025-01-07 11:24:30 +0900
+updated : 2025-01-07 11:40:45 +0900
 tag     : 
 toc     : true
 public  : true
@@ -29,5 +29,3 @@ chat gpt랑 얘기할땐, 먼저 memory update 시킨다.
 가령 아래와 같은 프롬프트로 모든 대화에서 내가 사용하는 영어를 첨삭하도록 하는 것이다.
 
 ![kyupid-2025-01-07-000945-hJx2rwoK](https://github.com/user-attachments/assets/66787331-8003-426c-8247-19633519935e)
-
-test if image url will be changed 2
