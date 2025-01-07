@@ -4,7 +4,7 @@ title   : wiki
 toc     : true
 public  : true
 comment : false
-updated : 2025-01-04 19:35:28 +0900
+updated : 2025-01-07 11:08:18 +0900
 regenerate: true
 ---
 
@@ -14,3 +14,5 @@ regenerate: true
 - [[bash]]
 - [[neovim]]
 - [[react]]
+- [[git]]
+- [[english]]
