@@ -3,7 +3,7 @@ layout  : wiki
 title   : Tibero
 summary : tibero
 date    : 2025-01-08 10:29:24 +0900
-updated : 2025-01-08 13:35:55 +0900
+updated : 2025-01-08 16:14:14 +0900
 tag     : 
 toc     : true
 public  : true
@@ -37,4 +37,10 @@ tbboot -k;
 tbboot
 
 tbdown immediate
+```
+
+```bash
+ cd $TB_HOME/scripts
+ system.sh -h
+ sh system.sh -p1 tibero -p2 syscat -a1 y -a2 y -a3 y -a4 y
 ```
