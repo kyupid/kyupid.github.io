@@ -4,7 +4,7 @@ title   : wiki
 toc     : true
 public  : true
 comment : false
-updated : 2025-01-07 11:13:04 +0900
+updated : 2025-01-12 11:15:50 +0900
 regenerate: true
 ---
 
@@ -16,6 +16,7 @@ regenerate: true
 - [[react]]
 - [[git]]
 - [[english]]
+- golang
 
 ## DB
 
