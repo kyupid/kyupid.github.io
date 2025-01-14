@@ -31,6 +31,8 @@ resource: 0DE1DD56-276C-492D-81AE-B71916977934
 	- PostgreSQL 와 매우 유사
 
 ### 단일(monolithic) vs 분산(distributed)
+
+![](kyupid-2025-01-14-000995-qtU19Kha.png)
 - 단일
 	- 단일 노드에서 read write
 	- 리소스가 더 필요하면 단순 확장[^question1]
