@@ -77,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 223.5
   },
   "right": {
     "id": "e4b4bf88782aaaa7",
@@ -163,9 +163,10 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "058ee8d56a21bf7e",
+  "active": "58ad2cffc99aaffc",
   "lastOpenFiles": [
-    "kyupid-2025-01-14-000995-qtU19Kha.png",
+    "resource/img",
+    "resource/img/kyupid-2025-01-14-000995-qtU19Kha.png",
     "_wiki/yugabyte.md",
     "_wiki/root-index.md",
     "_wiki/yugabytedb.md",
