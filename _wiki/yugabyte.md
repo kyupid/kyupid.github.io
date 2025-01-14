@@ -161,7 +161,7 @@ YugabyteDB는 두 가지 주요 API를 제공합니다. 첫 번째는 PostgreSQL
 
 YugabyteDB는 고가용성, 확장성, 낮은 대기 시간을 제공하기 위해 설계된 분산 SQL 데이터베이스ㅇ다. 클라우드 네이티브 환경에서 작동하며, PostgreSQL과 유사한 기능과 분산 데이터 저장의 장점을 결합한 아키텍처를 갖추고 있다.
 
-## 추가 키워드
+## 모니터링 키워드
 
 - YugabyteDB Aeon: full managed db..YugabyteDB-as-a-Service
 - https://api-docs.yugabyte.com/
