@@ -160,20 +160,22 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "templater-obsidian:Templater": false
+      "templater-obsidian:Templater": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "aac8741ad5ba6dcd",
   "lastOpenFiles": [
+    "_wiki/Untitled.md",
+    "_wiki/yugabyte.md",
+    "resource/img/kyupid-2025-01-14-000995-qtU19Kha.png",
+    "resource/img/kyupid-2025-01-14-000996-tEhU6Upn.png",
     "_wiki/tibero.md",
     "_wiki/go.md",
     "_wiki/neovim.md",
     "_wiki/react.md",
     "_wiki/root-index.md",
-    "_wiki/yugabyte.md",
     "resource/johngrib.png",
-    "resource/img/kyupid-2025-01-14-000996-tEhU6Upn.png",
-    "resource/img/kyupid-2025-01-14-000995-qtU19Kha.png",
     "resource/img",
     "_wiki/yugabytedb.md",
     "obsidian/template/metting-note.md",

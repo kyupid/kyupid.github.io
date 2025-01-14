@@ -71,6 +71,7 @@ resource: 0DE1DD56-276C-492D-81AE-B71916977934
 ### 분산 트랜잭션
 - 분산 SQL 데이터베이스에서는 데이터를 여러 노드에 분할하고 복제하기 떄문에 단일 row 업데이트는 해당 데이터를 포함하는 샤드(또는 태블릿)에서 처리
 	- 이 과정은 Raft[^raft]와 같은 프로토콜을 사용하여 일관성을 보장
+
 ```
 하지만 여러 행을 업데이트해야 하는 분산 트랜잭션의 경우에는 어떻게 처리될까요? YugabyteDB 및 대부분의 분산 SQL 데이터베이스는 트랜잭션 내에서 개별 작업을 처리한 뒤 이를 "모두 수행하거나 전혀 수행하지 않는 방식"으로 처리합니다. 이를 원자성(atomicity)이라고 하며, 일관성(consistency)도 유지됩니다.
 
@@ -159,6 +160,11 @@ YugabyteDB는 두 가지 주요 API를 제공합니다. 첫 번째는 PostgreSQL
 ### 결론
 
 YugabyteDB는 고가용성, 확장성, 낮은 대기 시간을 제공하기 위해 설계된 분산 SQL 데이터베이스ㅇ다. 클라우드 네이티브 환경에서 작동하며, PostgreSQL과 유사한 기능과 분산 데이터 저장의 장점을 결합한 아키텍처를 갖추고 있다.
+
+## 추가 키워드
+
+- YugabyteDB Aeon: full managed db..YugabyteDB-as-a-Service
+- https://api-docs.yugabyte.com/
 
 ---
 [^bare-metal]:  그냥 쌩 머신
