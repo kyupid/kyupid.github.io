@@ -2,5 +2,6 @@
   "useMarkdownLinks": true,
   "showUnsupportedFiles": false,
   "alwaysUpdateLinks": false,
-  "attachmentFolderPath": "resource/img"
+  "attachmentFolderPath": "resource/img",
+  "propertiesInDocument": "source"
 }

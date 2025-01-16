@@ -161,7 +161,7 @@ YugabyteDB는 두 가지 주요 API를 제공합니다. 첫 번째는 PostgreSQL
 - 이를 통해 PostgreSQL 의 익숙한 사용자 경험을 유지하면서 분산환경에 동작하도록 설계
 
 
-### YSQL vs YQL
+### YSQL vs YCQL
 
 | 특징     | YSQL                     | YCQL[^ycql]                     |
 | ------ | ------------------------ | ------------------------------- |
@@ -170,7 +170,7 @@ YugabyteDB는 두 가지 주요 API를 제공합니다. 첫 번째는 PostgreSQL
 | 트랜잭션  | 완전한 ACID 트랜잭션 지원        | 단일 키 트랜잭션, eventual consistency |
 | 쿼리 언어  | SQL                      | CQL (Cassandra Query Language)  |
 | 사용 사례  | 전통적인 관계형 DB 애플리케이션, OLTP | 실시간 데이터 처리, 분산 애플리케이션           |
-
+|        |                          |                                 |
 
 YSQL, YCQL 둘다 사용하거나 하나만 사용할 수 있다.
 
