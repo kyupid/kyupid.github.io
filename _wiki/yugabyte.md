@@ -201,6 +201,42 @@ YSQL, YCQL 둘다 사용하거나 하나만 사용할 수 있다.
 
 YugabyteDB는 고가용성, 확장성, 낮은 대기 시간을 제공하기 위해 설계된 분산 SQL 데이터베이스ㅇ다. 클라우드 네이티브 환경에서 작동하며, PostgreSQL과 유사한 기능과 분산 데이터 저장의 장점을 결합한 아키텍처를 갖추고 있다.
 
+## demo
+
+```bash
+#!/bin/bash
+
+docker rm -f yugabytedb-node1
+docker rm -f yugabytedb-node2
+docker rm -f yugabytedb-node3
+
+rm -rf ~/yugabyte-volume
+mkdir ~/yugabyte-volume
+
+docker network rm yugaplus-network
+docker network create yugaplus-network
+
+docker run -d --name yugabytedb-node1 --net yugaplus-network \
+  -p 15433:15433 -p 5433:5433 \
+  -v ~/yugabyte-volume/node1:/home/yugabyte/yb_data --restart unless-stopped \
+  yugabytedb/yugabyte:latest \
+  bin/yugabyted start --base_dir=/home/yugabyte/yb_data --background=false
+
+while ! docker exec -it yugabytedb-node1 postgres/bin/pg_isready -U yugabyte -h yugabytedb-node1; do sleep 1; done
+
+docker run -d --name yugabytedb-node2 --net yugaplus-network \
+  -p 15434:15433 -p 5434:5433 \
+  -v ~/yugabyte-volume/node2:/home/yugabyte/yb_data --restart unless-stopped \
+  yugabytedb/yugabyte:latest \
+  bin/yugabyted start --join=yugabytedb-node1 --base_dir=/home/yugabyte/yb_data --background=false
+
+docker run -d --name yugabytedb-node3 --net yugaplus-network \
+  -p 15435:15433 -p 5435:5433 \
+  -v ~/yugabyte-volume/node3:/home/yugabyte/yb_data --restart unless-stopped \
+  yugabytedb/yugabyte:latest \
+  bin/yugabyted start --join=yugabytedb-node1 --base_dir=/home/yugabyte/yb_data --background=false
+```
+
 ## 모니터링 키워드
 
 - YugabyteDB Aeon: full managed db..YugabyteDB-as-a-Service

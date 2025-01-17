@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_wiki/obsidian.md",
+                "file": "_wiki/yugabyte.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "obsidian"
+              "title": "yugabyte"
             }
           }
         ]
@@ -166,10 +166,11 @@
   },
   "active": "9a4200d4c09d7566",
   "lastOpenFiles": [
+    "_wiki/obsidian.md",
+    "data/metadata/obsidian.json",
     "obsidian/template/wiki.md",
     "_wiki/react.md",
     "_wiki/root-index.md",
-    "_wiki/obsidian.md",
     "obsidian/template/metting-note.md",
     "_wiki/neovim.md",
     "_wiki/go.md",
