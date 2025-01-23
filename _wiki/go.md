@@ -26,3 +26,58 @@ resource: D997454B-B59C-49A1-98AF-CFDCF74425C2
 채널은 동기적으로 또는 비동기적으로 동작할 수 있다.  
 동기적인 채널은 데이터를 보내는 쪽이 받는 쪽이 준비될 때까지 기다리지만, 비동기적인 채널은 버퍼를 설정하면 데이터를 일정량까지 보낼 수 있다.  
 
+## Zero Value
+
+초기값을 말한다.  
+primitive type 들은 전부 초기화된다.  
+단, 포인터로 초기화하면 nil 로 초기화된다.
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var num int       
+    var str string    
+    var flag bool     
+    
+    fmt.Println(num)   // 출력: 0
+    fmt.Println(str)   // 출력: ""
+    fmt.Println(flag)  // 출력: false
+    
+    var numPtr *int       // 초기화되지 않은 포인터
+    var strPtr *string    // 초기화되지 않은 문자열 포인터
+    var flagPtr *bool     // 초기화되지 않은 불리언 포인터
+
+    fmt.Println(numPtr)   // 출력: <nil>
+    fmt.Println(strPtr)   // 출력: <nil>
+    fmt.Println(flagPtr)  // 출력: <nil>
+
+    // nil 체크
+    if numPtr == nil {
+        fmt.Println("numPtr is nil")
+    }
+}
+```
+구조체도 다 초기화된다.  
+따라서 따로 자바처럼 new 로 명시적으로 객체를 메모리에 할당하지않아도  
+go는 알아서 초기화한다.
+```go
+type Counter struct {
+    value int
+}
+
+func (c *Counter) Increment() {
+    c.value++
+}
+
+func (c *Counter) Value() int {
+    return c.value
+}
+
+func main() {
+    var c Counter // Zero Value 상태: value == 0
+    c.Increment() // Zero Value 상태에서도 메서드 호출 가능
+    fmt.Println(c.Value()) // 출력: 1
+}
+```
