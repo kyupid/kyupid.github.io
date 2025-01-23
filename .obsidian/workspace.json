@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_wiki/yugabyte.md",
+                "file": "_wiki/java.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "yugabyte"
+              "title": "java"
             }
           }
         ]
@@ -166,6 +166,9 @@
   },
   "active": "9a4200d4c09d7566",
   "lastOpenFiles": [
+    "data/metadata/java.json",
+    "_wiki/yugabyte.md",
+    "_wiki/java.md",
     "_wiki/obsidian.md",
     "data/metadata/obsidian.json",
     "obsidian/template/wiki.md",
@@ -174,7 +177,6 @@
     "obsidian/template/metting-note.md",
     "_wiki/neovim.md",
     "_wiki/go.md",
-    "_wiki/yugabyte.md",
     "_wiki/tibero.md",
     "resource/img/kyupid-2025-01-16-001010-QM9ZjX3r.png",
     "resource/img/kyupid-2025-01-14-000995-qtU19Kha.png",
