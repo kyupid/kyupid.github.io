@@ -16,6 +16,40 @@ resource: D997454B-B59C-49A1-98AF-CFDCF74425C2
 
 # golang
 
+## 메모리 누수
+
+net/http/pprof 패키지 사용하면 쉽게 메모리, cpu, goroutine, 스레드 프로파일링 및 추적 가능하다  
+
+```go
+import (
+    "log"
+    "net/http"
+    _ "net/http/pprof"
+)
+
+func main() {
+    go func() {
+        log.Println(http.ListenAndServe("localhost:6060", nil))
+    }()
+    // 애플리케이션 코드
+}
+```
+
+애플리케이션 실행 후 pprof 툴을 실행시킨다
+```
+go tool pprof http://localhost:6060/debug/pprof/heap
+```
+
+top 명령어로 메모리 사용량 상위 함수 확인 가능하다
+```
+(pprof) top
+```
+
+시각화해서 볼 수도 있다.
+```
+(pprof) web
+```
+![](/resource/img/kyupid-2025-01-23-001063-iJL3DArv.png)
 ## channel 
 
 채널은 FIFO 큐를 떠올리면 이해하기 쉽다.  
