@@ -3,7 +3,7 @@ layout  : wiki
 title   : golang
 summary : 
 date    : 2025-01-12 11:16:09 +0900
-updated : 2025-01-12 11:34:54 +0900
+updated : 2025-01-24 10:30:54 +0900
 tag     : 
 toc     : true
 public  : true
