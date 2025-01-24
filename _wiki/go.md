@@ -16,6 +16,10 @@ resource: D997454B-B59C-49A1-98AF-CFDCF74425C2
 
 # golang
 
+## reference와 dereference
+
+![](/resource/img/kyupid-2025-01-24-001069-SwbzJSg3.png)
+
 ## 메모리 누수
 
 net/http/pprof 패키지 사용하면 쉽게 메모리, cpu, goroutine, 스레드 프로파일링 및 추적 가능하다  
