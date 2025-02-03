@@ -40,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -139,18 +140,31 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "obsidian/template/metting-note.md"
+                "file": "_wiki/go.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of metting-note"
+              "title": "Outline of go"
+            }
+          },
+          {
+            "id": "6cf3c961a335d897",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -164,7 +178,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9a4200d4c09d7566",
+  "active": "6cf3c961a335d897",
   "lastOpenFiles": [
     "resource/img/kyupid-2025-01-24-001069-SwbzJSg3.png",
     "resource/img/kyupid-2025-01-23-001063-iJL3DArv.png",
