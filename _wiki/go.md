@@ -16,6 +16,36 @@ resource: D997454B-B59C-49A1-98AF-CFDCF74425C2
 
 # golang
 
+## 애플리케이션 백그라운드 실행 방식에 대한 논의
+
+### 개요  
+
+Gophers 슬랙에서 Golang으로 메트릭 수집 에이전트를 개발할 때, 애플리케이션을 포그라운드 또는 백그라운드에서 실행할 수 있도록 하는 방법에 대해 논의했다. `-bg` 또는 `--background` 같은 플래그를 추가하는 것이 좋은 방식인지, 혹은 다른 접근 방식이 더 적절한지에 대한 의견을 들었다.  
+
+![](/resource/img/kyupid-2025-02-04-001085-e3Fg0BSh.png)
+### 주요 의견  
+
+#### 1. 애플리케이션 자체적으로 백그라운드 실행을 처리할 필요가 없다  
+- 백그라운드 실행은 운영 환경(Systemd, Docker, Kubernetes, 사용자 셸 등)에서 관리하는 것이 더 자연스럽다.  
+- 예를 들어, 사용자는 `nohup ./myapp &` 또는 `./myapp &`와 같은 방식으로 백그라운드 실행을 직접 처리할 수 있다.  
+
+#### 2. 운영 환경이 제공하는 기능 활용  
+- **Systemd**: 서비스로 등록하여 관리 (`systemctl start myapp`)  
+- **Docker**: `docker run -d myapp` (detach 모드)  
+- **Kubernetes**: Pod/Deployment 형태로 실행하여 자동 백그라운드 실행  
+- **사용자 셸**: `nohup ./myapp &` 또는 `./myapp &` 사용  
+
+#### 3. UNIX 전통에서의 백그라운드 실행 논의  
+- 과거 UNIX 환경에서는 프로그램이 스스로 백그라운드 실행을 처리하는 최적의 방법에 대한 논의가 많았다.  
+- 하지만 오늘날에는 Systemd 같은 서비스 매니저가 등장하면서 자체적으로 백그라운드 실행을 처리할 필요가 거의 없어졌다.  
+- 과거에는 `/etc` 폴더 어딘가의 셸 스크립트에서 `foo -d`, `bar --background` 같은 명령을 직접 실행하는 방식이 일반적이었지만, 이제는 운영 환경이 더 좋은 해결책을 제공한다.  
+- Noah Stride 라는 사람의 의견도 요즘에 flag 로 데몬을 저런식으로 띄운다면 굉장히 놀랄거라고 한다.
+![](/resource/img/kyupid-2025-02-04-001087-VjQFT9Me.png)
+![](/resource/img/kyupid-2025-02-04-001086-l0h4vBiR.png)
+### 결론  
+
+애플리케이션 자체에서 `-bg` 또는 `--background` 같은 옵션을 추가하기보다는, 운영 환경이 제공하는 기능을 활용하는 것이 더 일반적이고 적절한 방법이다.
+
 ## reference와 dereference
 
 ![](/resource/img/kyupid-2025-01-24-001069-SwbzJSg3.png)
