@@ -14,13 +14,48 @@ resource:
 * TOC
 {:toc}
 
+## 비동기 메소드 호출시 세션 정보
+
+```java
+class Main {
+    @GetMapping("/logout")
+    void logout(HttpServletRequest request) {
+
+	... 생략 // logout 내에서는 request 세션 정보가 있음
+    Test t = new Test();
+    
+    // 비동기 메소드 안에서는 해당 request 세션 정보가 사라짐
+    // t 정보는 남아 있음.
+    System.out.println(request.getSession(false))
+    asyncMethod(request, t)
+    }
+    
+    static class Test {
+        String foo;
+    }
+}
+
+class TestService {
+    @Async
+    asyncMethod(HttpServeletRequest request, Test t) {
+	    System.out.println(request.getSession(false))
+    }
+}
+```
+위 코드에서 asyncMethod() 들여다보면, `request.getSession(false)` 는 null 이다.
+
+왜 그럴까? HTTP 요청 객체와 일반 객체 간의 처리 방식의 차이 때문이다.
+
+비동기 메소드는 새로운 스레드에서 실행되고, 새로운 스레드가 시작되면 기존의 HTTP 요청이 처리되던 스레드 컨텍스트와 독립적이기 때문에 기존 요청 정보 (HttpServletRequest)와 세션 정보는 새로운 스레드에서 사용할 수 없다.
+
+이를 해결하기 위해선 레디스 같은 외부 세션 관리 저장소를 사용하던가 새로운 객체에 할당해서 사용해야하지 않나 싶다.
+
 ## mac 자바 설정
 
 특정 자바 버전 사용하도록 변경하고 싶을때가 있다.  
 예를 들면 자바 22 를 사용하고 있는데, gradle 로 빌드할때 17 버전이하가 필요하다던지 할때가 있다.   
 
 아래와 같이 자바 버전들이 설치되어 있다고 해보자.
-```
 ❯ /usr/libexec/java_home -V
 
 Matching Java Virtual Machines (5):

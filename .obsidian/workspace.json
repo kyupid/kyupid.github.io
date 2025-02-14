@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_wiki/zookeeper.md",
+                "file": "_wiki/java.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "zookeeper"
+              "title": "java"
             }
           }
         ]
@@ -180,8 +180,9 @@
   },
   "active": "9a4200d4c09d7566",
   "lastOpenFiles": [
-    "_wiki/altibase.md",
     "_wiki/zookeeper.md",
+    "data/metadata/zookeeper.json",
+    "_wiki/altibase.md",
     "_wiki/bash.md",
     "_wiki/english.md",
     "_wiki/git.md",
