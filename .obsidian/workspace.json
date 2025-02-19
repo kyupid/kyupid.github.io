@@ -180,6 +180,8 @@
   },
   "active": "9a4200d4c09d7566",
   "lastOpenFiles": [
+    "_wiki/go.md",
+    "_wiki/java.md",
     "_wiki/zookeeper.md",
     "data/metadata/zookeeper.json",
     "_wiki/altibase.md",
@@ -187,8 +189,6 @@
     "_wiki/english.md",
     "_wiki/git.md",
     "_wiki/gnu-stow.md",
-    "_wiki/go.md",
-    "_wiki/java.md",
     "_wiki/neovim.md",
     "_wiki/react.md",
     "_wiki/root-index.md",
