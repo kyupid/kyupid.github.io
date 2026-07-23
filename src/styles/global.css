@@ -134,8 +134,10 @@ a:hover { color: var(--link-hover); }
 }
 .post-content pre code { font-family: var(--font-mono); font-size: 13.5px; background: none; border: 0; padding: 0; }
 
-.post-content table { width: 100%; border-collapse: collapse; font-size: 0.92rem; display: block; overflow-x: auto; }
-.post-content :is(th, td) { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); }
+.post-content .table-scroll { overflow-x: auto; margin: 0 0 20px; }
+.post-content table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.post-content .table-scroll > table { margin: 0; }
+.post-content :is(th, td) { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
 .post-content th { font-weight: 700; }
 
 .post-content img { max-width: 100%; height: auto; }
