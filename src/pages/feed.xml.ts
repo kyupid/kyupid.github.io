@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { SITE } from '@config';
-import { getPublishedPosts, getSlugFromId, getDateFromId, getExcerpt } from '@utils/posts';
+import { getPublishedPosts, getPostPath, getDateFromId, getExcerpt } from '@utils/posts';
 
 export async function GET(context: APIContext) {
   const posts = await getPublishedPosts();
@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
       title: p.data.title,
       description: p.data.description || getExcerpt(p.body || ''),
       pubDate: new Date(getDateFromId(p.id) + 'T00:00:00'),
-      link: `/posts/${getSlugFromId(p.id)}/`,
+      link: getPostPath(p),
     })),
   });
 }

@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import PostLayout from '@layouts/PostLayout.astro';
 import {
   getPublishedPosts,
-  getSlugFromId,
+  getPostPath,
   getDateFromId,
   formatDate,
   getWordCount,
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
     if (data.draft && import.meta.env.PROD) return false;
     return true;
   });
-  return posts.map((post) => ({ params: { slug: getSlugFromId(post.id) }, props: { post } }));
+  return posts.map((post) => ({ params: { id: String(post.data.id) }, props: { post } }));
 }
 
 const { post } = Astro.props;
@@ -26,7 +26,7 @@ const { Content } = await render(post);
 const all = await getPublishedPosts();
 const { older, newer } = getAdjacentPosts(all, post.id);
 const dateISO = getDateFromId(post.id);
-const adj = (p: Post | null) => (p ? { title: p.data.title, url: `/posts/${getSlugFromId(p.id)}/` } : null);
+const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) } : null);
 ---
 
 <PostLayout

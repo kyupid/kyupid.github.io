@@ -21,10 +21,12 @@ pnpm preview    # 빌드 결과 미리보기 (검색 포함)
 ## 글 쓰기
 
 - 파일 위치: `src/posts/<연도>/YYYY-MM-DD-<slug>.mdx` (또는 `.md`).
-  **파일명이 곧 날짜·URL**이다 (`/posts/<slug>/`). frontmatter에 날짜를 따로 쓰지 않는다.
+  **파일명 앞의 `YYYY-MM-DD`가 글 날짜**다(파일명 slug는 파일 식별용일 뿐, URL과 무관).
+- **URL은 frontmatter `id`(정수)** → `/<id>/` 형태(예: `/1/`, `/2/`). 새 글마다 기존 최대 id + 1을 부여한다(auto-increment). id는 한 번 정하면 바꾸지 않는다(permalink 고정).
 - frontmatter:
   ```yaml
   ---
+  id: 2                        # 필수. 다음 정수로 증가시켜 부여 → URL /2/
   title: 글 제목
   description: 목록/OG/RSS에 쓰일 한 줄 요약 (선택)
   tags: [tag1, tag2]           # 선택

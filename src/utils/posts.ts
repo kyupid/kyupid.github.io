@@ -13,6 +13,11 @@ export function getSlugFromId(id: string): string {
   return basename.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 }
 
+/** Permalink path for a post: /<id>/ (numeric, from frontmatter). */
+export function getPostPath(post: Post): string {
+  return `/${post.data.id}/`;
+}
+
 /** "YYYY-MM-DD" parsed from the filename prefix. */
 export function getDateFromId(id: string): string {
   const basename = id.split('/').pop() ?? id;
