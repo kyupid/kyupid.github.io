@@ -1,0 +1,109 @@
+---
+// Masthead search: a trigger styled like an input + a Pagefind-powered modal.
+// Pagefind index only exists after `pnpm build` (astro build && pagefind --site dist),
+// so search returns results in `preview`/production, not in `astro dev`.
+---
+
+<button class="searchbox" id="searchOpen" aria-label="검색 열기" title="검색 (⌘K)">
+  <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+  <span class="searchbox-ph">Search…</span>
+  <kbd class="kbd" id="kbdHint">⌘K</kbd>
+</button>
+
+<div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="검색">
+  <div class="search-backdrop" data-close></div>
+  <div class="search-panel">
+    <div class="search-field">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input id="searchInput" type="text" placeholder="글 검색…" autocomplete="off" aria-label="검색어" />
+      <kbd class="kbd">ESC</kbd>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<style>
+  button.searchbox { font: inherit; cursor: pointer; }
+  .searchbox-ph { font-size: 13px; color: var(--muted); }
+</style>
+
+<script>
+  const openBtn = document.getElementById('searchOpen')!;
+  const modal = document.getElementById('searchModal')!;
+  const input = document.getElementById('searchInput') as HTMLInputElement;
+  const results = document.getElementById('searchResults')!;
+  const kbdHint = document.getElementById('kbdHint')!;
+
+  const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent || '');
+  kbdHint.textContent = isMac ? '⌘K' : 'Ctrl K';
+
+  let pagefind: any = null;
+  async function loadPagefind() {
+    if (pagefind) return pagefind;
+    try {
+      pagefind = await import(/* @vite-ignore */ new URL('/pagefind/pagefind.js', window.location.origin).href);
+      await pagefind.init();
+    } catch {
+      pagefind = null;
+    }
+    return pagefind;
+  }
+
+  function open() {
+    modal.classList.add('open');
+    input.value = '';
+    results.innerHTML = '';
+    setTimeout(() => input.focus(), 40);
+    loadPagefind();
+  }
+  function close() {
+    modal.classList.remove('open');
+  }
+
+  openBtn.addEventListener('click', open);
+  modal.querySelector('[data-close]')!.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    const k = (e.key || '').toLowerCase();
+    if ((e.metaKey || e.ctrlKey) && k === 'k') {
+      e.preventDefault();
+      modal.classList.contains('open') ? close() : open();
+    }
+    if (k === 'escape') close();
+  });
+
+  let timer: ReturnType<typeof setTimeout>;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => run(input.value), 180);
+  });
+
+  async function run(query: string) {
+    if (!query.trim()) {
+      results.innerHTML = '';
+      return;
+    }
+    const pf = await loadPagefind();
+    if (!pf) {
+      results.innerHTML = '<div class="search-empty">검색은 빌드 후에 동작합니다 (pnpm build).</div>';
+      return;
+    }
+    const search = await pf.search(query);
+    if (!search.results.length) {
+      results.innerHTML = '<div class="search-empty">검색 결과가 없습니다.</div>';
+      return;
+    }
+    const items = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+    results.innerHTML = items
+      .map(
+        (it: any) =>
+          `<a class="pf-result" href="${it.url}"><div class="pf-title">${it.meta?.title || it.url}</div><div class="pf-excerpt">${it.excerpt}</div></a>`
+      )
+      .join('');
+  }
+</script>

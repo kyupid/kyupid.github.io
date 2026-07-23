@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE } from '@config';
+import { getPublishedPosts, getSlugFromId, getDateFromId, formatDate, getExcerpt } from '@utils/posts';
+
+const posts = await getPublishedPosts();
+const entries = posts.map((p) => {
+  const date = getDateFromId(p.id);
+  return {
+    slug: getSlugFromId(p.id),
+    title: p.data.title,
+    date,
+    display: formatDate(date),
+    excerpt: p.data.description || getExcerpt(p.body || ''),
+    tags: p.data.tags,
+  };
+});
+---
+
+<BaseLayout>
+  <p class="intro">{SITE.description}</p>
+
+  {
+    entries.length === 0 ? (
+      <p class="intro">아직 글이 없습니다. 첫 글을 <code>src/posts/</code> 에 추가해 보세요.</p>
+    ) : (
+      <div class="entry-list">
+        {entries.map((e) => (
+          <article class="entry">
+            <div class="entry-date">
+              <time datetime={e.date}>{e.display}</time>
+            </div>
+            <a class="entry-title" href={`/posts/${e.slug}/`}>
+              {e.title}
+            </a>
+            {e.excerpt && <p class="entry-excerpt">{e.excerpt}</p>}
+            {e.tags.length > 0 && (
+              <div class="entry-tags">
+                {e.tags.map((t) => (
+                  <span>{t}</span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    )
+  }
+</BaseLayout>

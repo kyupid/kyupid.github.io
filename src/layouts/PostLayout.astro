@@ -1,0 +1,70 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Adjacent {
+  title: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  dateISO: string;
+  dateDisplay: string;
+  words: number;
+  tags: string[];
+  older: Adjacent | null;
+  newer: Adjacent | null;
+}
+
+const { title, description, image, dateISO, dateDisplay, words, tags, older, newer } = Astro.props;
+const wordStr = words.toLocaleString('en-US');
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article>
+    <h1 class="post-title">{title}</h1>
+    <div class="post-meta">
+      <time datetime={dateISO}>{dateDisplay}</time>
+      <span class="dot">·</span>{wordStr} words
+    </div>
+
+    <div class="post-content" data-pagefind-body>
+      <slot />
+    </div>
+
+    {
+      tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map((t) => (
+            <span>{'#' + t}</span>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      (older || newer) && (
+        <nav class="adjacent">
+          {older ? (
+            <a class="prev" href={older.url}>
+              <span class="lbl">이전 글</span>
+              {older.title}
+            </a>
+          ) : (
+            <span />
+          )}
+          {newer ? (
+            <a class="next" href={newer.url}>
+              <span class="lbl">다음 글</span>
+              {newer.title}
+            </a>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )
+    }
+  </article>
+</BaseLayout>

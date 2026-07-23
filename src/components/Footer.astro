@@ -1,0 +1,11 @@
+---
+import { SITE } from '@config';
+import Social from './Social.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <Social />
+  <div>© {year} {SITE.author} · Built with <a href="https://astro.build/">Astro</a></div>
+</footer>

@@ -1,0 +1,60 @@
+---
+title: 부드러운 애니메이션은 어디서 오는가
+description: requestAnimationFrame과 easing 함수가 어떻게 맞물려 자연스러운 움직임을 만드는지, 본문 한가운데 심은 캔버스 데모로 살펴본다.
+tags: [animation, javascript, canvas, frontend]
+---
+
+import Image from '@components/Image';
+import { CanvasDemo } from '@materials/hello-canvas';
+
+화면 위에서 무언가가 _부드럽게_ 움직인다는 건 사실 착시다. 브라우저는 1초에 60번, 정지된 그림을 빠르게 갈아끼우고 있을 뿐이다. 이 리듬을 다루는 표준 도구가 [requestAnimationFrame](https://developer.mozilla.org/docs/Web/API/window/requestAnimationFrame)이고, 자연스러운 가속·감속을 만드는 건 **easing 함수**다. 이 글에서는 둘이 어떻게 맞물리는지를 코드와 직접 움직이는 데모로 짚는다.
+
+## 왜 setInterval은 부족한가
+
+`setInterval(fn, 16)`은 그럴듯해 보이지만 디스플레이의 새로고침 주기와 어긋난다. 프레임을 흘리거나 겹쳐 그려서, 눈에는 미세한 떨림(jank)으로 남는다.
+
+> 애니메이션의 타이밍을 _당신이_ 정하지 마라. 브라우저가 "이제 그릴 시간이야"라고 알려줄 때 그려라. 그게 rAF다.
+
+rAF 루프의 뼈대는 이렇게 단순하다. 콜백은 시작 이후 경과한 밀리초를 인자로 받는다.
+
+```js
+function animate(now) {
+  const t = (now - start) / duration; // 0 → 1 로 정규화
+  const eased = easeInOutCubic(t);
+  ball.y = top + eased * distance;
+  draw(ball);
+  if (t < 1) requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+```
+
+## 직접 보기
+
+핵심은 `eased = f(t)` 한 줄이다. 같은 시간 `t`를 넣어도 `f`를 무엇으로 두느냐에 따라 움직임의 성격이 완전히 달라진다. 아래는 본문 한가운데 심어 둔 React 캔버스 데모다. easing을 바꿔가며 곡선과 공의 움직임을 비교해 보라.
+
+<CanvasDemo client:visible />
+
+## 대표 easing 비교
+
+자주 쓰는 함수 몇 개를 성격으로 정리하면 다음과 같다. GFM 표라서 정렬·정돈이 자연스럽게 된다.
+
+| 함수              | 느낌                | overshoot |
+| ----------------- | ------------------- | --------: |
+| `linear`          | 기계적, 일정 속도   |        0% |
+| `easeInOutCubic`  | 가장 무난한 기본값  |        0% |
+| `easeOutBounce`   | 바닥에 튕기는 공    |        0% |
+| `easeInOutBack`   | 살짝 지나쳤다 복귀  |     ≈ 10% |
+
+### 이 글을 쓰며 확인한 것
+
+- [x] 프레임 예산은 16.7ms — 넘기면 즉시 체감된다
+- [x] DPR 보정을 빼먹으면 고해상도에서 흐릿해진다
+- [ ] `prefers-reduced-motion` 존중 (데모에도 적용해 둠)
+
+참고로 easing 곡선을 표준화한 건 CSS 트랜지션의 `cubic-bezier()`였고, 로버트 펜너의 정리가 사실상 원전으로 통한다.[^penner]
+
+<Image src="/images/hello-easing.svg" caption="그림 1. ease-in-out 곡선 스케치 (Image 컴포넌트 + figcaption)" />
+
+정리하면, 부드러움은 _타이밍(rAF)_ 과 _모양(easing)_ 의 곱이다. 둘 중 하나만 신경 써도 어색해진다.
+
+[^penner]: Penner, R. _Motion, Tweening, and Easing_. 대부분의 애니메이션 라이브러리가 이 정의를 그대로 계승한다.

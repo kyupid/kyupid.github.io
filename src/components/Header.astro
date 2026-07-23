@@ -1,0 +1,18 @@
+---
+import { SITE } from '@config';
+import Search from './Search.astro';
+import Social from './Social.astro';
+---
+
+<header class="masthead">
+  <div class="masthead-top">
+    <div class="brand">
+      <a href="/">{SITE.title}</a>
+      <small>{SITE.tagline}</small>
+    </div>
+    <div class="masthead-tools">
+      <Search />
+      <Social />
+    </div>
+  </div>
+</header>
