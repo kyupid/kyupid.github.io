@@ -1,13 +1,14 @@
 // Single source of truth for site identity.
-// Replace the placeholders below (also update SITE_URL in astro.config.mjs to match `url`).
+// (Keep `url` in sync with SITE_URL in astro.config.mjs and the Sitemap line in public/robots.txt.)
 export const SITE = {
-  url: 'https://USERNAME.github.io',
-  title: '연우의 블로그',
+  url: 'https://kyupid.github.io',
+  title: '가장 낮은 자세',
   tagline: 'devlog',
-  author: 'YOUR NAME',
+  author: 'Yeonwoo',
   description: '개발과 관련된 것들을 기록합니다.',
   social: {
-    github: 'https://github.com/USERNAME',
+    github: 'https://github.com/kyupid',
+    // TODO: replace with your LinkedIn profile URL
     linkedin: 'https://www.linkedin.com/in/USERNAME',
   },
 } as const;

@@ -7,8 +7,8 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 
-// NOTE: replace with your GitHub Pages user site (also update src/config.ts).
-const SITE_URL = 'https://USERNAME.github.io';
+// Keep in sync with SITE.url in src/config.ts.
+const SITE_URL = 'https://kyupid.github.io';
 
 export default defineConfig({
   site: SITE_URL,
