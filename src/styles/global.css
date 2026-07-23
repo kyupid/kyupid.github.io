@@ -144,10 +144,16 @@ a:hover { color: var(--link-hover); }
 .post-content figure { margin-inline: 0; }
 .post-content figcaption { color: var(--muted); font-size: 0.8rem; margin-top: 8px; text-align: center; }
 
-/* footnotes (remark-gfm) */
+/* footnotes (remark-gfm) — plain, bracketed style */
 .post-content .footnotes { border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 14px; font-size: 0.9rem; color: var(--muted); }
-.post-content .footnotes h2 { font-size: 0.9rem; margin: 0 0 8px; }
-.post-content [data-footnote-ref] { text-decoration: none; font-size: 0.72em; vertical-align: super; padding: 0 1px; }
+/* hide the generated "Footnotes" heading (kept for screen readers) */
+.post-content .footnotes > h2 { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* in-text reference marker → [1] */
+.post-content [data-footnote-ref] { text-decoration: none; }
+.post-content [data-footnote-ref]::before { content: '['; }
+.post-content [data-footnote-ref]::after { content: ']'; }
+/* backref arrow: force plain text (not color-emoji) presentation */
+.post-content [data-footnote-backref] { text-decoration: none; font-variant-emoji: text; }
 
 /* ---------- post footer ---------- */
 .post-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 34px 0 0; }
