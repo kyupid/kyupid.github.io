@@ -1,0 +1,102 @@
+---
+// Floating "back to top" button with a circular reading-progress ring.
+// Ring fills as you scroll; click scrolls to top. Shown on post pages.
+---
+
+<button class="scrolltop" id="scrolltop" aria-label="맨 위로" title="맨 위로">
+  <svg class="ring" viewBox="0 0 44 44" aria-hidden="true">
+    <circle class="ring-track" cx="22" cy="22" r="20"></circle>
+    <circle class="ring-progress" cx="22" cy="22" r="20"></circle>
+  </svg>
+  <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"></path>
+  </svg>
+</button>
+
+<style>
+  .scrolltop {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--muted);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s, color 0.2s;
+    z-index: 50;
+  }
+  .scrolltop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .scrolltop:hover {
+    color: var(--link);
+  }
+  .scrolltop .ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .ring-track {
+    fill: none;
+    stroke: var(--rule);
+    stroke-width: 2.5;
+  }
+  .ring-progress {
+    fill: none;
+    stroke: var(--link);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.1s linear;
+  }
+  .scrolltop .arrow {
+    width: 18px;
+    height: 18px;
+    position: relative;
+  }
+  @media (max-width: 640px) {
+    .scrolltop { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+    .scrolltop .arrow { width: 16px; height: 16px; }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('scrolltop');
+  if (btn) {
+    const prog = btn.querySelector('.ring-progress') as SVGCircleElement;
+    const C = 2 * Math.PI * 20;
+    prog.style.strokeDasharray = String(C);
+    prog.style.strokeDashoffset = String(C);
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const update = () => {
+      const scrolled = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(scrolled / max, 1) : 0;
+      prog.style.strokeDashoffset = String(C * (1 - p));
+      btn.classList.toggle('visible', scrolled > 400);
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
+</script>

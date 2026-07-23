@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import ScrollProgress from '@components/ScrollProgress.astro';
 
 interface Adjacent {
   title: string;
@@ -67,4 +68,6 @@ const wordStr = words.toLocaleString('en-US');
       )
     }
   </article>
+
+  <ScrollProgress />
 </BaseLayout>
