@@ -17,4 +17,8 @@ npm-debug.log*
 # Mac
 .DS_Store
 
+# Claude Code
+CLAUDE.md
+.claude/
+
 # Pagefind (generated into dist)
