@@ -10,4 +10,7 @@ export const SITE = {
     github: 'https://github.com/kyupid',
     linkedin: 'https://www.linkedin.com/in/kywkyu/',
   },
+  // GoatCounter site code (<code>.goatcounter.com). Loaded in production builds
+  // only; set to '' to turn analytics off entirely.
+  goatcounter: 'kyupid',
 } as const;
