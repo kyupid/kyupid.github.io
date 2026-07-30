@@ -1,7 +1,7 @@
 // Single source of truth for site identity.
 // (Keep `url` in sync with SITE_URL in astro.config.mjs and the Sitemap line in public/robots.txt.)
 export const SITE = {
-  url: 'https://kyupid.github.io',
+  url: 'https://kimyeonwoo.com',
   title: '김연우의 블로그',
   tagline: '가장 낮은 자세',
   author: '김연우',

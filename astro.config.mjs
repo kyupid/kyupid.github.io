@@ -8,7 +8,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 
 // Keep in sync with SITE.url in src/config.ts.
-const SITE_URL = 'https://kyupid.github.io';
+const SITE_URL = 'https://kimyeonwoo.com';
 
 /**
  * Wrap every <table> in <div class="table-scroll"> so tables stay full-width
