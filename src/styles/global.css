@@ -213,7 +213,10 @@ a:hover { color: var(--link-hover); }
 .search-results { max-height: 60vh; overflow-y: auto; }
 .search-results:empty { display: none; }
 .search-results .pf-result { display: block; padding: 12px 18px; text-decoration: none; border-top: 1px solid var(--rule); }
-.search-results .pf-result:hover { background: var(--accent-soft); }
+.search-results .pf-result:hover,
+.search-results .pf-result.active { background: var(--accent-soft); }
+.search-hint { display: flex; align-items: center; gap: 5px; padding: 9px 18px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.74rem; }
+.search-results:empty + .search-hint { display: none; }
 .search-results .pf-title { font-weight: 600; color: var(--text); }
 .search-results .pf-excerpt { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
 .search-results .pf-excerpt mark { background: var(--accent-soft); color: var(--link); border-radius: 2px; }

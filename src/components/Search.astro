@@ -24,7 +24,8 @@
       <input id="searchInput" type="text" placeholder="글 검색…" autocomplete="off" aria-label="검색어" />
       <kbd class="kbd">ESC</kbd>
     </div>
-    <div class="search-results" id="searchResults"></div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="검색 결과"></div>
+    <div class="search-hint"><kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> 이동 <kbd class="kbd">↵</kbd> 열기</div>
   </div>
 </div>
 
@@ -55,10 +56,30 @@
     return pagefind;
   }
 
+  // Keyboard selection: `active` indexes into the rendered result links.
+  let active = -1;
+  const items = () => Array.from(results.querySelectorAll<HTMLAnchorElement>('.pf-result'));
+
+  function setActive(i: number) {
+    const nodes = items();
+    if (!nodes.length) {
+      active = -1;
+      return;
+    }
+    active = (i + nodes.length) % nodes.length;
+    nodes.forEach((n, idx) => {
+      const on = idx === active;
+      n.classList.toggle('active', on);
+      n.setAttribute('aria-selected', String(on));
+      if (on) n.scrollIntoView({ block: 'nearest' });
+    });
+  }
+
   function open() {
     modal.classList.add('open');
     input.value = '';
     results.innerHTML = '';
+    active = -1;
     setTimeout(() => input.focus(), 40);
     loadPagefind();
   }
@@ -83,27 +104,54 @@
     timer = setTimeout(() => run(input.value), 180);
   });
 
+  // Arrows move the selection, Enter opens it. Focus stays in the input so the
+  // user can keep typing without reaching for the mouse.
+  input.addEventListener('keydown', (e) => {
+    const k = e.key;
+    if (k === 'ArrowDown' || k === 'ArrowUp') {
+      if (!items().length) return;
+      e.preventDefault();
+      setActive(active + (k === 'ArrowDown' ? 1 : -1));
+    } else if (k === 'Enter') {
+      const target = items()[active];
+      if (target) {
+        e.preventDefault();
+        window.location.href = target.href;
+      }
+    }
+  });
+
+  // Hovering a result takes over the selection so the two never disagree.
+  results.addEventListener('mousemove', (e) => {
+    const row = (e.target as HTMLElement).closest('.pf-result');
+    if (row) setActive(items().indexOf(row as HTMLAnchorElement));
+  });
+
   async function run(query: string) {
     if (!query.trim()) {
       results.innerHTML = '';
+      setActive(0);
       return;
     }
     const pf = await loadPagefind();
     if (!pf) {
       results.innerHTML = '<div class="search-empty">검색은 빌드 후에 동작합니다 (pnpm build).</div>';
+      setActive(0);
       return;
     }
     const search = await pf.search(query);
     if (!search.results.length) {
       results.innerHTML = '<div class="search-empty">검색 결과가 없습니다.</div>';
+      setActive(0);
       return;
     }
-    const items = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
-    results.innerHTML = items
+    const hits = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+    results.innerHTML = hits
       .map(
         (it: any) =>
-          `<a class="pf-result" href="${it.url}"><div class="pf-title">${it.meta?.title || it.url}</div><div class="pf-excerpt">${it.excerpt}</div></a>`
+          `<a class="pf-result" href="${it.url}" role="option"><div class="pf-title">${it.meta?.title || it.url}</div><div class="pf-excerpt">${it.excerpt}</div></a>`
       )
       .join('');
+    setActive(0); // first hit is pre-selected, so Enter alone opens it
   }
 </script>
