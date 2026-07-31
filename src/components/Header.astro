@@ -7,7 +7,10 @@ import Social from './Social.astro';
 <header class="masthead">
   <div class="masthead-top">
     <div class="brand">
-      <a href="/">{SITE.title}</a>
+      <a class="brand-home" href="/">
+        <img class="avatar" src="/avatar.jpg" alt={SITE.author} width="88" height="88" />
+        <span>{SITE.title}</span>
+      </a>
       <small>{SITE.tagline}</small>
     </div>
     <div class="masthead-tools">
