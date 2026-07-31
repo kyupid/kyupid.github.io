@@ -1,0 +1,38 @@
+---
+import { SITE } from '@config';
+
+interface Props {
+  /** Stable thread key. Use the post's filename slug, never its numeric id. */
+  term: string;
+}
+
+const { term } = Astro.props;
+const gc = SITE.giscus;
+---
+
+{
+  gc.repo && (
+    <section class="comments" aria-label="댓글">
+      <h2 class="comments-title">댓글</h2>
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={gc.repo}
+        data-repo-id={gc.repoId}
+        data-category={gc.category}
+        data-category-id={gc.categoryId}
+        data-mapping="specific"
+        data-term={term}
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="ko"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}

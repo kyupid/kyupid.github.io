@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import ScrollProgress from '@components/ScrollProgress.astro';
+import Comments from '@components/Comments.astro';
 
 interface Adjacent {
   title: string;
@@ -9,6 +10,8 @@ interface Adjacent {
 
 interface Props {
   title: string;
+  /** Filename slug, used as the stable giscus thread key. */
+  slug: string;
   description?: string;
   image?: string;
   dateISO: string;
@@ -19,7 +22,8 @@ interface Props {
   newer: Adjacent | null;
 }
 
-const { title, description, image, dateISO, dateDisplay, words, tags, older, newer } = Astro.props;
+const { title, slug, description, image, dateISO, dateDisplay, words, tags, older, newer } =
+  Astro.props;
 const wordStr = words.toLocaleString('en-US');
 ---
 
@@ -68,6 +72,8 @@ const wordStr = words.toLocaleString('en-US');
       )
     }
   </article>
+
+  <Comments term={slug} />
 
   <ScrollProgress />
 </BaseLayout>

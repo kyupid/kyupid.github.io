@@ -191,6 +191,12 @@ a:hover { color: var(--link-hover); }
 .entry-thumb img { display: block; width: 132px; height: 88px; object-fit: cover; background: var(--accent-soft); }
 .entry-thumb:hover { border-color: var(--link); }
 
+/* ---------- comments (giscus) ---------- */
+.comments { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.comments-title { font-size: 0.82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px; }
+.comments .giscus, .comments .giscus-frame { width: 100%; }
+.comments .giscus-frame { border: 0; color-scheme: normal; }
+
 /* ---------- site footer ---------- */
 .site-footer { color: var(--muted); font-size: 0.8rem; margin: 44px 0 40px; padding-top: 18px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .site-footer .social { justify-content: center; }

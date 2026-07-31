@@ -9,6 +9,7 @@ import {
   getWordCount,
   getAdjacentPosts,
   getOgImage,
+  getSlugFromId,
   type Post,
 } from '@utils/posts';
 
@@ -32,6 +33,7 @@ const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) 
 
 <PostLayout
   title={post.data.title}
+  slug={getSlugFromId(post.id)}
   description={post.data.description}
   image={getOgImage(post)}
   dateISO={dateISO}

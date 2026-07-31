@@ -14,6 +14,15 @@ export const SITE = {
   // Source of truth for the artwork is public/og-default.svg (re-render with
   // `rsvg-convert -w 1200 -h 630 public/og-default.svg -o public/og-default.png`).
   ogImage: '/og-default.png',
+  // giscus (comments backed by GitHub Discussions). Threads are keyed by the
+  // post's filename slug, not its numeric URL, so re-numbering a post never
+  // orphans its comments. Set repo to '' to turn comments off.
+  giscus: {
+    repo: 'kyupid/kyupid.github.io',
+    repoId: 'R_kgDOR0nw8w',
+    category: 'Announcements',
+    categoryId: 'DIC_kwDOR0nw884DCWbp',
+  },
   // GoatCounter site code (<code>.goatcounter.com). Loaded in production builds
   // only; set to '' to turn analytics off entirely.
   goatcounter: 'kyupid',
