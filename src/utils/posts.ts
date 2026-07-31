@@ -71,6 +71,21 @@ export function getExcerpt(body: string, maxLength = 160): string {
   return text.slice(0, maxLength).replace(/\s+\S*$/, '') + '…';
 }
 
+/**
+ * Share-card image for a post: explicit frontmatter `image` wins, otherwise the
+ * first image in the body. Returns undefined so the layout can fall back to
+ * SITE.ogImage.
+ */
+export function getOgImage(post: Post): string | undefined {
+  if (post.data.image) return post.data.image;
+  const body = post.body || '';
+  // Markdown ![alt](/path) first, then an MDX/HTML src="..." attribute.
+  const md = body.match(/!\[[^\]]*\]\((\/[^)\s]+)\)/);
+  if (md) return md[1];
+  const attr = body.match(/src=["'](\/[^"']+\.(?:png|jpe?g|gif|webp|avif))["']/i);
+  return attr ? attr[1] : undefined;
+}
+
 /** All published posts (drops hidden always, drafts only in prod), newest first. */
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('posts', ({ data }) => {

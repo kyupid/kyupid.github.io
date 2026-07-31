@@ -10,6 +10,10 @@ export const SITE = {
     github: 'https://github.com/kyupid',
     linkedin: 'https://www.linkedin.com/in/kywkyu/',
   },
+  // Fallback share card, used when a post has no image of its own.
+  // Source of truth for the artwork is public/og-default.svg (re-render with
+  // `rsvg-convert -w 1200 -h 630 public/og-default.svg -o public/og-default.png`).
+  ogImage: '/og-default.png',
   // GoatCounter site code (<code>.goatcounter.com). Loaded in production builds
   // only; set to '' to turn analytics off entirely.
   goatcounter: 'kyupid',

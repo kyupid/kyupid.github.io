@@ -14,7 +14,8 @@ const { title, description, image } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
 const desc = description || SITE.description;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = image ? new URL(image, Astro.site).href : undefined;
+// Every page gets a share card: the page's own image, else the site default.
+const ogImage = new URL(image || SITE.ogImage, Astro.site).href;
 ---
 
 <!doctype html>

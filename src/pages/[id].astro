@@ -8,6 +8,7 @@ import {
   formatDate,
   getWordCount,
   getAdjacentPosts,
+  getOgImage,
   type Post,
 } from '@utils/posts';
 
@@ -32,7 +33,7 @@ const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) 
 <PostLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.image}
+  image={getOgImage(post)}
   dateISO={dateISO}
   dateDisplay={formatDate(dateISO)}
   words={getWordCount(post.body || '')}

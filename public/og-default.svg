@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="1200" height="10" fill="#0066cc"/>
+
+  <g transform="translate(96, 236)">
+    <rect width="72" height="72" rx="16" fill="#0066cc"/>
+    <path d="M20 56 L34.6 28 L40.2 28 L25.6 56 Z" fill="#fff"/>
+    <circle cx="53.4" cy="53" r="5.4" fill="#9cc2ff"/>
+  </g>
+
+  <text x="196" y="272" font-family="Pretendard, 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif"
+        font-size="72" font-weight="700" fill="#111111">김연우의 블로그</text>
+  <text x="196" y="330" font-family="Pretendard, 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif"
+        font-size="34" font-weight="400" fill="#666666">가장 낮은 자세</text>
+
+  <text x="96" y="520" font-family="Pretendard, 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif"
+        font-size="28" font-weight="400" fill="#888888">개발과 관련된 것들을 기록합니다.</text>
+  <text x="96" y="566" font-family="Pretendard, 'Apple SD Gothic Neo', 'Helvetica Neue', sans-serif"
+        font-size="26" font-weight="500" fill="#0066cc">kimyeonwoo.com</text>
+</svg>
