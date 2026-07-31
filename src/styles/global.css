@@ -177,6 +177,12 @@ a:hover { color: var(--link-hover); }
 .entry-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
 .entry-tags span { font-size: 0.74rem; color: var(--muted); }
 .entry-tags span::before { content: '#'; opacity: 0.6; }
+/* Thumbnail column: only present when the post has an image, so text-only
+   entries keep the full width and the list stays text-first. */
+.entry.has-thumb { display: grid; grid-template-columns: 1fr 132px; gap: 20px; align-items: start; }
+.entry-thumb { display: block; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); }
+.entry-thumb img { display: block; width: 132px; height: 88px; object-fit: cover; background: var(--accent-soft); }
+.entry-thumb:hover { border-color: var(--link); }
 
 /* ---------- site footer ---------- */
 .site-footer { color: var(--muted); font-size: 0.8rem; margin: 44px 0 40px; padding-top: 18px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -211,6 +217,8 @@ a:hover { color: var(--link-hover); }
   .post-content h2 { font-size: 1.26rem; margin-top: 32px; }
   .post-content h3 { font-size: 1.06rem; }
   .entry-title { font-size: 1.18rem; }
+  .entry.has-thumb { grid-template-columns: 1fr 96px; gap: 14px; }
+  .entry-thumb img { width: 96px; height: 68px; }
   .adjacent { flex-direction: column; gap: 14px; }
   .adjacent a { max-width: 100%; }
   .adjacent .next { text-align: left; margin-left: 0; }

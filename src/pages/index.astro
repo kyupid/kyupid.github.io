@@ -1,7 +1,14 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { SITE } from '@config';
-import { getPublishedPosts, getPostPath, getDateFromId, formatDate, getExcerpt } from '@utils/posts';
+import {
+  getPublishedPosts,
+  getPostPath,
+  getDateFromId,
+  formatDate,
+  getExcerpt,
+  getOgImage,
+} from '@utils/posts';
 
 const posts = await getPublishedPosts();
 const entries = posts.map((p) => {
@@ -13,6 +20,9 @@ const entries = posts.map((p) => {
     display: formatDate(date),
     excerpt: p.data.description || getExcerpt(p.body || ''),
     tags: p.data.tags,
+    // Undefined for text-only posts: those entries render without a thumbnail
+    // rather than falling back to the shared OG card.
+    thumb: getOgImage(p),
   };
 });
 ---
@@ -26,20 +36,29 @@ const entries = posts.map((p) => {
     ) : (
       <div class="entry-list">
         {entries.map((e) => (
-          <article class="entry">
-            <div class="entry-date">
-              <time datetime={e.date}>{e.display}</time>
-            </div>
-            <a class="entry-title" href={e.url}>
-              {e.title}
-            </a>
-            {e.excerpt && <p class="entry-excerpt">{e.excerpt}</p>}
-            {e.tags.length > 0 && (
-              <div class="entry-tags">
-                {e.tags.map((t) => (
-                  <span>{t}</span>
-                ))}
+          <article class:list={['entry', e.thumb && 'has-thumb']}>
+            <div class="entry-main">
+              <div class="entry-date">
+                <time datetime={e.date}>{e.display}</time>
               </div>
+              <a class="entry-title" href={e.url}>
+                {e.title}
+              </a>
+              {e.excerpt && <p class="entry-excerpt">{e.excerpt}</p>}
+              {e.tags.length > 0 && (
+                <div class="entry-tags">
+                  {e.tags.map((t) => (
+                    <span>{t}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            {e.thumb && (
+              /* Decorative duplicate of the title link: skipped by screen readers
+                 and keyboard tabbing so each entry stays a single stop. */
+              <a class="entry-thumb" href={e.url} aria-hidden="true" tabindex="-1">
+                <img src={e.thumb} alt="" loading="lazy" decoding="async" />
+              </a>
             )}
           </article>
         ))}
