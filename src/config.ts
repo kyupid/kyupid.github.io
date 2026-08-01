@@ -7,7 +7,6 @@ export const SITE = {
   author: '김연우',
   description: '개발과 관련된 것들을 기록합니다.',
   social: {
-    github: 'https://github.com/kyupid',
     linkedin: 'https://www.linkedin.com/in/kywkyu/',
   },
   // Fallback share card, used when a post has no image of its own.
