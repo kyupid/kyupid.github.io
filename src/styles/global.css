@@ -229,9 +229,20 @@ a:hover { color: var(--link-hover); }
 .side-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
 .side-list a { color: var(--text); text-decoration: none; line-height: 1.45; display: block; }
 .side-list a:hover { color: var(--link); }
+.side-date { display: block; margin-top: 2px; color: var(--muted); font-size: 0.74rem; font-variant-numeric: tabular-nums; }
 
 /* ---------- archive pages ---------- */
 .archive-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px; }
+
+/* ---------- AI writing policy ---------- */
+.policy {
+  border: 1px solid var(--rule); border-radius: 8px; padding: 18px 20px;
+  margin: 0 0 34px; background: var(--accent-soft);
+}
+.policy-title { font-size: 0.95rem; font-weight: 700; margin: 0 0 10px; }
+.policy p { margin: 0 0 9px; font-size: 0.92rem; line-height: 1.6; }
+.policy p:last-child { margin-bottom: 0; }
+.policy-note { color: var(--muted); font-size: 0.8rem !important; padding-top: 4px; }
 
 /* ---------- link permalink page ---------- */
 .link-post .post-title { font-size: 1.55rem; }

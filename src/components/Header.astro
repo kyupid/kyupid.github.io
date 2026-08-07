@@ -6,7 +6,10 @@ import Social from './Social.astro';
 // Mark the archive we're currently on. trailingSlash is 'always', so the
 // pathname is "/links/" rather than "/links".
 const path = Astro.url.pathname;
+// Timeline points at '/' rather than its own URL: the home page already is the
+// mixed stream, and a second URL with identical content would just split it.
 const nav = [
+  { href: '/', label: 'Timeline' },
   { href: '/entries/', label: 'Entries' },
   { href: '/links/', label: 'Links' },
 ];

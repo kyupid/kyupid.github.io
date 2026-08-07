@@ -1,6 +1,6 @@
 ---
 import { SITE } from '@config';
-import { getPublishedPosts, getPostPath } from '@utils/posts';
+import { getPublishedPosts, getPostPath, getDateFromId, formatDate } from '@utils/posts';
 
 // Resolve the configured ids to real posts, so a highlight can never point at
 // a hidden or deleted post and a renamed post updates its own label.
@@ -16,6 +16,7 @@ const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !==
     <p class="side-role">
       {SITE.role} · <a href={SITE.social.linkedin}>LinkedIn</a>
     </p>
+    <p class="side-role"><a href="/entries/#ai">이 블로그의 AI 사용 방침</a></p>
   </section>
 
   {
@@ -23,11 +24,17 @@ const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !==
       <section class="side-block">
         <h2 class="side-title">Highlights</h2>
         <ul class="side-list">
-          {highlights.map((p) => (
-            <li>
-              <a href={getPostPath(p)}>{p.data.title}</a>
-            </li>
-          ))}
+          {highlights.map((p) => {
+            const date = getDateFromId(p.id);
+            return (
+              <li>
+                <a href={getPostPath(p)}>{p.data.title}</a>
+                <time class="side-date" datetime={date}>
+                  {formatDate(date)}
+                </time>
+              </li>
+            );
+          })}
         </ul>
       </section>
     )
