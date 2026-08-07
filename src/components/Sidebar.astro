@@ -11,18 +11,15 @@ const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !==
 
 <aside class="sidebar">
   <section class="side-block">
-    <h2 class="side-title">소개</h2>
-    <p class="side-bio">{SITE.bio}</p>
-  </section>
-
-  <section class="side-block">
     <h2 class="side-title">AI 사용 방침</h2>
     <p class="side-bio">
       판단과 의견이 들어간 문장은 직접 씁니다. AI에게는 맞춤법과 비문 교정만 맡기고, 겪지 않은 경험을
       채워 넣게 하지 않습니다.
     </p>
+    {/* Hand-written revision date, not the build date: it should only move when
+        the policy itself changes. */}
     <p class="side-role">
-      <a
+      2026년 8월 7일 기준. <a
         href="https://simonwillison.net/2026/Mar/1/ai-writing/"
         target="_blank"
         rel="noopener noreferrer">Simon Willison의 방침</a
