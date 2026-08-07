@@ -1,5 +1,4 @@
 ---
-id: 18
 title: "RDS Slow Query, CloudWatch Logs 수집 파이프라인 구축기"
 description: "클라우드 환경에서 데이터베이스를 운영하다 보면, 단순히 개별 지표만 모니터링하는 것으로는 충분하지 않을 때가 있습니다."
 tags: [경험, AWS]

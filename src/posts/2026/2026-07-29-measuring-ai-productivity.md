@@ -1,5 +1,4 @@
 ---
-id: 22
 type: link
 title: "AI 도입 효과를 산출물 개수로 측정할 때 생기는 일"
 link: https://www.thoughtworks.com/insights/blog/generative-ai/measuring-developer-productivity-ai

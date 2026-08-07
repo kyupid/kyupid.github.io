@@ -1,5 +1,4 @@
 ---
-id: 20
 type: link
 title: "에이전트에게 컨텍스트를 나눠주는 것과 판단을 나눠주는 것"
 link: https://simonwillison.net/2025/Jun/2/claude-trace/

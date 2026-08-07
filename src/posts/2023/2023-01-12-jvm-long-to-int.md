@@ -1,5 +1,4 @@
 ---
-id: 11
 title: "JVM 형변환 long to int, 왜 정보 손실이 있었는데도 두 값의 차이가 같을까?"
 description: "long 타입에서 int 타입으로 형변환하는 과정에 대해 알아보자. long val1Long = 108095103513L; long val2Long = 108030648857L; int val1In..."
 tags: [자바, JVM]

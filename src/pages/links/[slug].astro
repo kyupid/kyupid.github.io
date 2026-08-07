@@ -1,36 +1,26 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import PostLayout from '@layouts/PostLayout.astro';
 import {
   getPublishedPosts,
-  getPostPath,
   getDateFromId,
   formatDate,
   getWordCount,
-  getAdjacentPosts,
   getOgImage,
   getSlugFromId,
-  type Post,
 } from '@utils/posts';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => {
-    if (data.hide) return false;
-    if (data.draft && import.meta.env.PROD) return false;
-    return true;
-  });
-  return posts.map((post) => ({ params: { id: String(post.data.id) }, props: { post } }));
+  const posts = await getPublishedPosts('link');
+  return posts.map((post) => ({ params: { slug: getSlugFromId(post.id) }, props: { post } }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-
-const all = await getPublishedPosts();
-const { older, newer } = getAdjacentPosts(all, post.id);
 const dateISO = getDateFromId(post.id);
-const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) } : null);
 ---
 
+{/* Links get no prev/next: PostLayout drops that nav for them anyway. */}
 <PostLayout
   title={post.data.title}
   slug={getSlugFromId(post.id)}
@@ -42,8 +32,8 @@ const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) 
   dateDisplay={formatDate(dateISO)}
   words={getWordCount(post.body || '')}
   tags={post.data.tags}
-  older={adj(older)}
-  newer={adj(newer)}
+  older={null}
+  newer={null}
 >
   <Content />
 </PostLayout>

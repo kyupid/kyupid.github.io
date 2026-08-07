@@ -1,5 +1,4 @@
 ---
-id: 5
 title: "마이바티스 select 주의할 점 (with 타임리프)"
 description: "타임리프로 개발하다보면 아래와 같은 예외를 무조건 만나게 될것이다. org.thymeleaf.exceptions.TemplateProcessingException: Exception evaluati..."
 tags: [마이바티스]

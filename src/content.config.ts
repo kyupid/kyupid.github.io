@@ -12,8 +12,8 @@ const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/posts' }),
   schema: z
     .object({
-      // Numeric permalink id → URL is /<id>/. Assign the next integer per post (auto-increment).
-      id: z.number().int().positive(),
+      // No id field: the URL is /<type>/<slug>/, and the slug comes from the
+      // filename, so nothing here has to be assigned by hand.
       type: z.enum(['entry', 'link']).default('entry'),
       title: z.string(),
       // The source URL. Required for `type: link`, unused otherwise.

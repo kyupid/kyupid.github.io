@@ -23,9 +23,14 @@ export function getSlugFromId(id: string): string {
   return basename.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 }
 
-/** Permalink path for a post: /<id>/ (numeric, from frontmatter). */
+/** Collection segment for a type: entries or links. */
+export function getTypeSegment(type: PostType): string {
+  return type === 'link' ? 'links' : 'entries';
+}
+
+/** Permalink path for a post: /entries/<slug>/ or /links/<slug>/. */
 export function getPostPath(post: Post): string {
-  return `/${post.data.id}/`;
+  return `/${getTypeSegment(post.data.type)}/${getSlugFromId(post.id)}/`;
 }
 
 /** "YYYY-MM-DD" parsed from the filename prefix. */

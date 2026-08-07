@@ -1,5 +1,4 @@
 ---
-id: 12
 title: "자바 strict weak ordering 과 Comparison method violates its general contract 에러"
 description: "자바 \"IllegalArgumentException: Comparison method violates its general contract!\" 에러에 대해 알아보자."
 tags: [자바, JVM]
@@ -89,7 +88,7 @@ numberList.stream()
 
 위 코드는 `a - b` 를 int 로 캐스팅하여 반환한다. 이것은 strict weak ordering 를 만족시키지 않는다.
 
-왜냐하면 int 로 캐스팅하게 되면, 숫자들이 int 범위를 넘어섰을 때 가지고 있는 값을 올바르게 캐스팅할 수 없는 경우도 있기 때문이다. 자세한 건 [JVM 형변환 long to int](/11/)를 참고하자.
+왜냐하면 int 로 캐스팅하게 되면, 숫자들이 int 범위를 넘어섰을 때 가지고 있는 값을 올바르게 캐스팅할 수 없는 경우도 있기 때문이다. 자세한 건 [JVM 형변환 long to int](/entries/jvm-long-to-int/)를 참고하자.
 
 ![](/images/strict-weak-ordering/01.jpg)
 
