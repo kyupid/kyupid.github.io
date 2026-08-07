@@ -12,8 +12,10 @@ const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/posts' }),
   schema: z
     .object({
-      // No id field: the URL is /<type>/<slug>/, and the slug comes from the
-      // filename, so nothing here has to be assigned by hand.
+      // Permalink id → URL is /<type>/<id>/. Assign the next integer per post;
+      // the sequence is shared by entries and links, and the build fails on a
+      // duplicate (see assertUniqueIds in utils/posts.ts).
+      id: z.number().int().positive(),
       type: z.enum(['entry', 'link']).default('entry'),
       title: z.string(),
       // The source URL. Required for `type: link`, unused otherwise.

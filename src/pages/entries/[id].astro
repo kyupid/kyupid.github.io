@@ -10,12 +10,14 @@ import {
   getAdjacentPosts,
   getOgImage,
   getSlugFromId,
+  assertUniqueIds,
   type Post,
 } from '@utils/posts';
 
 export async function getStaticPaths() {
+  await assertUniqueIds();
   const posts = await getPublishedPosts('entry');
-  return posts.map((post) => ({ params: { slug: getSlugFromId(post.id) }, props: { post } }));
+  return posts.map((post) => ({ params: { id: String(post.data.id) }, props: { post } }));
 }
 
 const { post } = Astro.props;

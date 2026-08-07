@@ -1,4 +1,5 @@
 ---
+id: 21
 type: link
 title: "Astro Content Layer가 로더 방식으로 바뀐 이유"
 link: https://astro.build/blog/content-layer-deep-dive/

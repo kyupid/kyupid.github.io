@@ -1,4 +1,5 @@
 ---
+id: 9
 title: "Spring Data Redis: Expired key trigger event: 2개 이상의 WAS가 있을 때"
 description: "현재 개발중인 서비스는 어떤 \"미션\" 이라는 것을 유저가 참여할 수 있다. 해당 \"미션\"을 정해진 시간 내에 완료하지 못하면 휴대폰으로 푸시알림이 가도록 했다. 이 과정에서 겪은 문제와 해결법을 적어보았다."
 tags: [스프링]

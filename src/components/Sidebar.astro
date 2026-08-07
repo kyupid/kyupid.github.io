@@ -1,12 +1,12 @@
 ---
 import { SITE } from '@config';
-import { getPublishedPosts, getPostPath, getSlugFromId, getDateFromId, formatDate } from '@utils/posts';
+import { getPublishedPosts, getPostPath, getDateFromId, formatDate } from '@utils/posts';
 
-// Resolve the configured slugs to real posts, so a highlight can never point at
+// Resolve the configured ids to real posts, so a highlight can never point at
 // a hidden or deleted post and a renamed post updates its own label.
 const posts = await getPublishedPosts();
-const bySlug = new Map(posts.map((p) => [getSlugFromId(p.id), p]));
-const highlights = SITE.highlights.map((slug) => bySlug.get(slug)).filter((p) => p !== undefined);
+const byId = new Map(posts.map((p) => [p.data.id, p]));
+const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !== undefined);
 ---
 
 <aside class="sidebar">

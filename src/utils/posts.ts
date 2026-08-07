@@ -28,9 +28,25 @@ export function getTypeSegment(type: PostType): string {
   return type === 'link' ? 'links' : 'entries';
 }
 
-/** Permalink path for a post: /entries/<slug>/ or /links/<slug>/. */
+/** Permalink path for a post: /entries/<id>/ or /links/<id>/. */
 export function getPostPath(post: Post): string {
-  return `/${getTypeSegment(post.data.type)}/${getSlugFromId(post.id)}/`;
+  return `/${getTypeSegment(post.data.type)}/${post.data.id}/`;
+}
+
+/**
+ * Fails the build if two posts share an id. Without this a reused id quietly
+ * drops one of the two posts from the build and hands its URL to the other.
+ * Hidden and draft posts count too, so unhiding one can't surface a collision
+ * later.
+ */
+export async function assertUniqueIds(): Promise<void> {
+  const all = await getCollection('posts');
+  const seen = new Map<number, string>();
+  for (const post of all) {
+    const clash = seen.get(post.data.id);
+    if (clash) throw new Error(`포스트 id ${post.data.id} 가 중복입니다: ${clash} / ${post.id}`);
+    seen.set(post.data.id, post.id);
+  }
 }
 
 /** "YYYY-MM-DD" parsed from the filename prefix. */

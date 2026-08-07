@@ -1,4 +1,5 @@
 ---
+id: 10
 title: "왜 관습적으로 private static final 을 사용하는 것일까?"
 description: "먼저 public static final 을 사용하는 이유에 대해서 생각해보자. public static final int DEFAULT_SIZE = 16; 와 같은 형태의 쓰임새는 이해가 갈것이다."
 tags: [자바, JVM]
