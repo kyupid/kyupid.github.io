@@ -8,7 +8,6 @@ export const SITE = {
   description: '개발과 관련된 것들을 기록합니다.',
   // Sidebar 소개. The one thing a first-time reader should take away.
   bio: 'AI를 실제 업무에 적용하며, 사람이 직접 신경 써야 하는 일을 어떻게 줄일 수 있는지 기록합니다. 실행은 위임하되 시스템의 상태와 위험을 빠르게 파악하는 방법에 관심이 있습니다.',
-  role: '데이터베이스 모니터링 제품 서버 개발',
   // Sidebar Highlights, by post id. Titles are read from the posts themselves,
   // so renaming a post can't leave a stale label here.
   highlights: [19, 18, 16, 17],
