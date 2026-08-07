@@ -92,6 +92,14 @@ a:hover { color: var(--link-hover); }
   border: 1px solid var(--tag-border); border-bottom-width: 2px; border-radius: 5px;
   padding: 1px 5px; line-height: 1.4; white-space: nowrap; flex: none;
 }
+.masthead-nav { display: flex; gap: 16px; margin-top: 12px; }
+.masthead-nav a {
+  color: var(--muted); text-decoration: none; font-size: 0.86rem; font-weight: 600;
+  letter-spacing: -0.01em; padding-bottom: 2px; border-bottom: 2px solid transparent;
+}
+.masthead-nav a:hover { color: var(--link); }
+.masthead-nav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--link); }
+
 .social { display: flex; align-items: center; gap: 11px; }
 .social a { color: var(--muted); display: inline-flex; }
 .social a:hover { color: var(--link); }
@@ -190,6 +198,30 @@ a:hover { color: var(--link-hover); }
 .entry-thumb { display: block; border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); }
 .entry-thumb img { display: block; width: 132px; height: 88px; object-fit: cover; background: var(--accent-soft); }
 .entry-thumb:hover { border-color: var(--link); }
+
+/* Links in the stream: an accent rule marks them at a glance, the title leaves
+   for the source, and the "링크" chip on the date line is the permalink in. */
+.entry.is-link { border-left: 2px solid var(--rule); padding-left: 16px; }
+.entry.is-link:hover { border-left-color: var(--link); }
+.entry.is-link .entry-title { font-size: 1.14rem; }
+.entry-kind {
+  margin-left: 8px; font-size: 0.72rem; font-weight: 600; color: var(--muted);
+  text-decoration: none; border: 1px solid var(--tag-border); border-radius: 4px;
+  padding: 0 5px; vertical-align: 1px;
+}
+.entry-kind:hover { color: var(--link); border-color: var(--link); }
+.entry-host { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+.entry-host::after { content: ' ↗'; opacity: 0.7; }
+
+/* ---------- archive pages ---------- */
+.archive-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px; }
+
+/* ---------- link permalink page ---------- */
+.link-post .post-title { font-size: 1.55rem; }
+.link-post .post-title a { color: var(--text); text-decoration: none; }
+.link-post .post-title a:hover { color: var(--link); }
+.link-post .post-title a::after { content: ' ↗'; font-size: 0.8em; color: var(--muted); }
+.post-source { color: var(--muted); }
 
 /* ---------- comments (giscus) ---------- */
 .comments { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); }

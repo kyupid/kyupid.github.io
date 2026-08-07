@@ -2,6 +2,14 @@
 import { SITE } from '@config';
 import Search from './Search.astro';
 import Social from './Social.astro';
+
+// Mark the archive we're currently on. trailingSlash is 'always', so the
+// pathname is "/links/" rather than "/links".
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/entries/', label: 'Entries' },
+  { href: '/links/', label: 'Links' },
+];
 ---
 
 <header class="masthead">
@@ -18,4 +26,13 @@ import Social from './Social.astro';
       <Social />
     </div>
   </div>
+  <nav class="masthead-nav">
+    {
+      nav.map((n) => (
+        <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>
+          {n.label}
+        </a>
+      ))
+    }
+  </nav>
 </header>

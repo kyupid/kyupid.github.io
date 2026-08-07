@@ -1,0 +1,81 @@
+---
+import {
+  getPostPath,
+  getDateFromId,
+  formatDate,
+  getExcerpt,
+  getOgImage,
+  getLinkHost,
+  type Post,
+} from '@utils/posts';
+
+interface Props {
+  posts: Post[];
+  empty?: string;
+}
+
+const { posts, empty = '아직 글이 없습니다.' } = Astro.props;
+
+const items = posts.map((p) => {
+  const date = getDateFromId(p.id);
+  const isLink = p.data.type === 'link';
+  return {
+    isLink,
+    // A link's title goes straight to the source, so its date carries the permalink.
+    permalink: getPostPath(p),
+    href: isLink ? p.data.link! : getPostPath(p),
+    host: isLink ? getLinkHost(p.data.link!) : null,
+    title: p.data.title,
+    date,
+    display: formatDate(date),
+    // Links run two or three sentences, so show the whole note rather than a teaser.
+    body: isLink ? getExcerpt(p.body || '', 400) : p.data.description || getExcerpt(p.body || ''),
+    tags: p.data.tags,
+    // Undefined for text-only posts: those entries render without a thumbnail
+    // rather than falling back to the shared OG card. Links never take one.
+    thumb: isLink ? undefined : getOgImage(p),
+  };
+});
+---
+
+{
+  items.length === 0 ? (
+    <p class="intro">{empty}</p>
+  ) : (
+    <div class="entry-list">
+      {items.map((e) => (
+        <article class:list={['entry', e.isLink && 'is-link', e.thumb && 'has-thumb']}>
+          <div class="entry-main">
+            <div class="entry-date">
+              <time datetime={e.date}>{e.display}</time>
+              {e.isLink && (
+                <a class="entry-kind" href={e.permalink}>
+                  링크
+                </a>
+              )}
+            </div>
+            <a class="entry-title" href={e.href}>
+              {e.title}
+            </a>
+            {e.host && <div class="entry-host">{e.host}</div>}
+            {e.body && <p class="entry-excerpt">{e.body}</p>}
+            {e.tags.length > 0 && (
+              <div class="entry-tags">
+                {e.tags.map((t) => (
+                  <span>{t}</span>
+                ))}
+              </div>
+            )}
+          </div>
+          {e.thumb && (
+            /* Decorative duplicate of the title link: skipped by screen readers
+               and keyboard tabbing so each entry stays a single stop. */
+            <a class="entry-thumb" href={e.permalink} aria-hidden="true" tabindex="-1">
+              <img src={e.thumb} alt="" loading="lazy" decoding="async" />
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  )
+}

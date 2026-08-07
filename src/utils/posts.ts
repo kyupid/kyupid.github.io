@@ -2,6 +2,16 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import readingTime from 'reading-time';
 
 export type Post = CollectionEntry<'posts'>;
+export type PostType = Post['data']['type'];
+
+/** Source host shown under a link's title, e.g. "simonwillison.net". */
+export function getLinkHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
 
 /**
  * Slug from a post id. Ids look like "2026/2026-07-23-title.mdx" or
@@ -86,22 +96,32 @@ export function getOgImage(post: Post): string | undefined {
   return attr ? attr[1] : undefined;
 }
 
-/** All published posts (drops hidden always, drafts only in prod), newest first. */
-export async function getPublishedPosts(): Promise<Post[]> {
+/**
+ * All published posts (drops hidden always, drafts only in prod), newest first.
+ * Pass a type to get just entries or just links, for the archive pages.
+ */
+export async function getPublishedPosts(type?: PostType): Promise<Post[]> {
   const posts = await getCollection('posts', ({ data }) => {
     if (data.hide) return false;
     if (data.draft && import.meta.env.PROD) return false;
+    if (type && data.type !== type) return false;
     return true;
   });
   return posts.sort((a, b) => getDateFromId(b.id).localeCompare(getDateFromId(a.id)));
 }
 
-/** Previous (older) and next (newer) post relative to the given slug. */
+/**
+ * Previous (older) and next (newer) post relative to the given slug, staying
+ * within the same type — otherwise "다음 글" jumps from an essay to a
+ * two-sentence link and back.
+ */
 export function getAdjacentPosts(posts: Post[], currentId: string) {
-  const idx = posts.findIndex((p) => p.id === currentId);
+  const current = posts.find((p) => p.id === currentId);
+  const sameType = current ? posts.filter((p) => p.data.type === current.data.type) : posts;
+  const idx = sameType.findIndex((p) => p.id === currentId);
   // posts are newest-first: next (newer) is idx-1, prev (older) is idx+1
   return {
-    newer: idx > 0 ? posts[idx - 1] : null,
-    older: idx >= 0 && idx < posts.length - 1 ? posts[idx + 1] : null,
+    newer: idx > 0 ? sameType[idx - 1] : null,
+    older: idx >= 0 && idx < sameType.length - 1 ? sameType[idx + 1] : null,
   };
 }

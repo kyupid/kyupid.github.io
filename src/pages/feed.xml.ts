@@ -9,11 +9,18 @@ export async function GET(context: APIContext) {
     title: SITE.title,
     description: SITE.description,
     site: context.site!,
-    items: posts.map((p) => ({
-      title: p.data.title,
-      description: p.data.description || getExcerpt(p.body || ''),
-      pubDate: new Date(getDateFromId(p.id) + 'T00:00:00'),
-      link: getPostPath(p),
-    })),
+    items: posts.map((p) => {
+      const isLink = p.data.type === 'link';
+      // Links carry their whole note; entries get a teaser.
+      const body = p.data.description || getExcerpt(p.body || '', isLink ? 400 : 160);
+      return {
+        title: p.data.title,
+        // <link> stays the permalink even for links, so readers that dedupe or
+        // count by URL see this site. The source goes in the body instead.
+        description: isLink ? `${body}\n\n원문: ${p.data.link}` : body,
+        pubDate: new Date(getDateFromId(p.id) + 'T00:00:00'),
+        link: getPostPath(p),
+      };
+    }),
   });
 }

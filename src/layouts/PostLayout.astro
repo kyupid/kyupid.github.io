@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import ScrollProgress from '@components/ScrollProgress.astro';
 import Comments from '@components/Comments.astro';
+import { getLinkHost, type PostType } from '@utils/posts';
 
 interface Adjacent {
   title: string;
@@ -12,6 +13,9 @@ interface Props {
   title: string;
   /** Filename slug, used as the stable giscus thread key. */
   slug: string;
+  type: PostType;
+  /** Source URL, set for type: link. */
+  link?: string;
   description?: string;
   image?: string;
   dateISO: string;
@@ -22,17 +26,44 @@ interface Props {
   newer: Adjacent | null;
 }
 
-const { title, slug, description, image, dateISO, dateDisplay, words, tags, older, newer } =
+const { title, slug, type, link, description, image, dateISO, dateDisplay, words, tags, older, newer } =
   Astro.props;
 const wordStr = words.toLocaleString('en-US');
+
+// A link is a couple of sentences about someone else's writing. It keeps a
+// permalink for the feed, but a word count, prev/next nav and a comment thread
+// would all outweigh the post itself.
+const isLink = type === 'link';
 ---
 
 <BaseLayout title={title} description={description} image={image}>
-  <article>
-    <h1 class="post-title">{title}</h1>
+  <article class:list={[isLink && 'link-post']}>
+    {
+      isLink ? (
+        <h1 class="post-title">
+          <a href={link}>{title}</a>
+        </h1>
+      ) : (
+        <h1 class="post-title">{title}</h1>
+      )
+    }
     <div class="post-meta">
       <time datetime={dateISO}>{dateDisplay}</time>
-      <span class="dot">·</span>{wordStr} words
+      {
+        isLink ? (
+          <>
+            <span class="dot">·</span>
+            <a class="post-source" href={link}>
+              {getLinkHost(link!)}
+            </a>
+          </>
+        ) : (
+          <>
+            <span class="dot">·</span>
+            {wordStr} words
+          </>
+        )
+      }
     </div>
 
     <div class="post-content" data-pagefind-body>
@@ -50,7 +81,7 @@ const wordStr = words.toLocaleString('en-US');
     }
 
     {
-      (older || newer) && (
+      !isLink && (older || newer) && (
         <nav class="adjacent">
           {older ? (
             <a class="prev" href={older.url}>
@@ -73,7 +104,7 @@ const wordStr = words.toLocaleString('en-US');
     }
   </article>
 
-  <Comments term={slug} />
+  {!isLink && <Comments term={slug} />}
 
-  <ScrollProgress />
+  {!isLink && <ScrollProgress />}
 </BaseLayout>
