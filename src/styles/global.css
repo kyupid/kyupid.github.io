@@ -192,7 +192,9 @@ a:hover { color: var(--link-hover); }
 .entry-date { color: var(--muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
 .entry-title { display: inline; font-size: 1.28rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; text-decoration: none; color: var(--text); }
 .entry-title:hover { color: var(--link); }
-.entry-excerpt { color: var(--muted); margin: 6px 0 0; font-size: 0.95rem; }
+/* Full-strength text, not muted: on the timeline this paragraph is the content
+   (a link's whole note), so greying it out buries what people came to read. */
+.entry-excerpt { color: var(--text); margin: 6px 0 0; font-size: 0.95rem; }
 .entry-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
 .entry-tags span { font-size: 0.74rem; color: var(--muted); }
 .entry-tags span::before { content: '#'; opacity: 0.6; }
