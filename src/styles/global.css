@@ -203,11 +203,11 @@ a:hover { color: var(--link-hover); }
 .entry-thumb img { display: block; width: 132px; height: 88px; object-fit: cover; background: var(--accent-soft); }
 .entry-thumb:hover { border-color: var(--link); }
 
-/* Links in the stream: an accent rule marks them at a glance, the title leaves
-   for the source, and the "링크" chip on the date line is the permalink in. */
-.entry.is-link { border-left: 2px solid var(--rule); padding-left: 16px; }
-.entry.is-link:hover { border-left-color: var(--link); }
-.entry.is-link .entry-title { font-size: 1.14rem; }
+/* Links in the stream: flush with the entries, marked by the "링크" chip on the
+   date line (which is also the permalink in) and a link-coloured title that
+   leaves for the source. */
+.entry.is-link .entry-title { font-size: 1.14rem; color: var(--link); }
+.entry.is-link .entry-title:hover { color: var(--link-hover); }
 .entry-kind {
   margin-left: 8px; font-size: 0.72rem; font-weight: 600; color: var(--muted);
   text-decoration: none; border: 1px solid var(--tag-border); border-radius: 4px;
