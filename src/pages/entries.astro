@@ -10,23 +10,5 @@ const posts = await getPublishedPosts('entry');
   <h1 class="archive-title">Entries</h1>
   <p class="intro">직접 쓴 글 {posts.length}편.</p>
 
-  {/* Anchored as #ai so the sidebar can link straight to it. */}
-  <section class="policy" id="ai">
-    <h2 class="policy-title">이 블로그의 AI 사용 방침</h2>
-    <p>
-      여기 있는 문장은 제가 씁니다. 특히 판단과 의견이 들어간 문장, “저는”으로 시작하는 문장은 예외
-      없이 직접 씁니다.
-    </p>
-    <p>AI에게는 교정을 맡깁니다. 맞춤법, 비문, 같은 말을 두 번 한 곳을 찾게 합니다.</p>
-    <p>제가 겪지 않은 경험이나 하지 않은 생각을 AI가 채워 넣게 하지 않습니다.</p>
-    <p class="policy-note">
-      이 방침은 Simon Willison의 <a
-        href="https://simonwillison.net/2026/Mar/1/ai-writing/"
-        target="_blank"
-        rel="noopener noreferrer">My current policy on AI writing for my blog</a
-      >에서 빌려왔습니다.
-    </p>
-  </section>
-
   <PostStream posts={posts} empty="아직 쓴 글이 없습니다." />
 </BaseLayout>
