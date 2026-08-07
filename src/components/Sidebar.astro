@@ -1,0 +1,35 @@
+---
+import { SITE } from '@config';
+import { getPublishedPosts, getPostPath } from '@utils/posts';
+
+// Resolve the configured ids to real posts, so a highlight can never point at
+// a hidden or deleted post and a renamed post updates its own label.
+const posts = await getPublishedPosts();
+const byId = new Map(posts.map((p) => [p.data.id, p]));
+const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !== undefined);
+---
+
+<aside class="sidebar">
+  <section class="side-block">
+    <h2 class="side-title">소개</h2>
+    <p class="side-bio">{SITE.bio}</p>
+    <p class="side-role">
+      {SITE.role} · <a href={SITE.social.linkedin}>LinkedIn</a>
+    </p>
+  </section>
+
+  {
+    highlights.length > 0 && (
+      <section class="side-block">
+        <h2 class="side-title">Highlights</h2>
+        <ul class="side-list">
+          {highlights.map((p) => (
+            <li>
+              <a href={getPostPath(p)}>{p.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</aside>

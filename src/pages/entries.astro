@@ -6,7 +6,7 @@ import { getPublishedPosts } from '@utils/posts';
 const posts = await getPublishedPosts('entry');
 ---
 
-<BaseLayout title="Entries" description="직접 쓴 글 모음">
+<BaseLayout title="Entries" description="직접 쓴 글 모음" sidebar>
   <h1 class="archive-title">Entries</h1>
   <p class="intro">직접 쓴 글 {posts.length}편.</p>
   <PostStream posts={posts} empty="아직 쓴 글이 없습니다." />

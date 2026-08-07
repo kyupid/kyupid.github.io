@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostStream from '@components/PostStream.astro';
-import { SITE } from '@config';
 import { getPublishedPosts } from '@utils/posts';
 
 // The home page mixes entries and links in one reverse-chronological stream;
@@ -9,7 +8,8 @@ import { getPublishedPosts } from '@utils/posts';
 const posts = await getPublishedPosts();
 ---
 
-<BaseLayout>
-  <p class="intro">{SITE.description}</p>
+<BaseLayout sidebar>
+  {/* No intro line here: the sidebar 소개 already says who this is, and two
+      statements of it at the top of the same screen read as filler. */}
   <PostStream posts={posts} empty="아직 글이 없습니다. 첫 글을 src/posts/ 에 추가해 보세요." />
 </BaseLayout>

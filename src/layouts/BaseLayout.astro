@@ -2,15 +2,21 @@
 import '../styles/global.css';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import Sidebar from '@components/Sidebar.astro';
 import { SITE } from '@config';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  /**
+   * Two-column with the sidebar, on the stream pages. Post pages stay single
+   * column at the original 800px so the reading measure doesn't change.
+   */
+  sidebar?: boolean;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, sidebar = false } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE.title}` : `${SITE.title} · ${SITE.tagline}`;
 const desc = description || SITE.description;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -56,11 +62,24 @@ const ogImage = new URL(image || SITE.ogImage, Astro.site).href;
     }
   </head>
   <body>
-    <div class="wrap">
+    <div class:list={['wrap', sidebar && 'wrap-wide']}>
       <Header />
-      <main>
-        <slot />
-      </main>
+      {
+        sidebar ? (
+          /* Sidebar sits after main in the DOM so small screens and screen
+             readers get the posts first. */
+          <div class="with-sidebar">
+            <main>
+              <slot />
+            </main>
+            <Sidebar />
+          </div>
+        ) : (
+          <main>
+            <slot />
+          </main>
+        )
+      }
       <Footer />
     </div>
   </body>
