@@ -16,7 +16,21 @@ const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !==
     <p class="side-role">
       {SITE.role} · <a href={SITE.social.linkedin}>LinkedIn</a>
     </p>
-    <p class="side-role"><a href="/#ai">이 블로그의 AI 사용 방침</a></p>
+  </section>
+
+  <section class="side-block">
+    <h2 class="side-title">AI 사용 방침</h2>
+    <p class="side-bio">
+      판단과 의견이 들어간 문장은 직접 씁니다. AI에게는 맞춤법과 비문 교정만 맡기고, 겪지 않은 경험을
+      채워 넣게 하지 않습니다.
+    </p>
+    <p class="side-role">
+      <a
+        href="https://simonwillison.net/2026/Mar/1/ai-writing/"
+        target="_blank"
+        rel="noopener noreferrer">Simon Willison의 방침</a
+      >을 참고했습니다.
+    </p>
   </section>
 
   {
