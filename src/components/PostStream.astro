@@ -31,9 +31,10 @@ const items = posts.map((p) => {
     // Links run two or three sentences, so show the whole note rather than a teaser.
     body: isLink ? getExcerpt(p.body || '', 400) : p.data.description || getExcerpt(p.body || ''),
     tags: p.data.tags,
-    // Undefined for text-only posts: those entries render without a thumbnail
-    // rather than falling back to the shared OG card. Links never take one.
-    thumb: isLink ? undefined : getOgImage(p),
+    // Undefined for text-only posts: those render without a thumbnail rather
+    // than falling back to the shared OG card. A link only gets one if its
+    // frontmatter names an image saved under public/images/links/.
+    thumb: getOgImage(p),
   };
 });
 ---

@@ -3,6 +3,7 @@ id: 23
 type: link
 title: "AX 인재전쟁 프롤로그: 문제를 고르는 능력을 시험하고 싶었다"
 link: https://bogyie.com/blog/ax-war-prologue
+image: /images/links/ax-war-prologue.png
 tags: [AI, 생각]
 ---
 

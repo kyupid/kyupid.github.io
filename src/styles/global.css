@@ -216,6 +216,10 @@ a:hover { color: var(--link-hover); }
   padding: 0 5px; vertical-align: 1px;
 }
 .entry-kind:hover { color: var(--link); border-color: var(--link); }
+/* A link's thumbnail is someone else's image: a book cover, a logo, a header
+   card. The shape is unpredictable, so fit the whole image in the box instead
+   of cropping a band out of the middle of a portrait cover. */
+.entry.is-link .entry-thumb img { object-fit: contain; background: var(--bg); padding: 3px; }
 .entry-host { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
 .entry-host::after { content: ' ↗'; opacity: 0.7; }
 
