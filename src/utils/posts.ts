@@ -87,7 +87,8 @@ export function getExcerpt(body: string, maxLength = 160): string {
   const text = body
     .replace(/^import\s.+$/gm, '')
     .replace(/^export\s.+$/gm, '')
-    .replace(/<[^>]+>/g, '')
+    // Only real tags: a bare <여덟 단어> in the prose has to survive.
+    .replace(/<\/?[A-Za-z][^>]*>/g, '')
     .replace(/^#{1,6}\s+/gm, '')
     .replace(/!\[.*?\]\(.*?\)/g, '')
     .replace(/\[([^\]]+)\]\(.*?\)/g, '$1')
