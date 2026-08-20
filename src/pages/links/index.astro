@@ -6,8 +6,8 @@ import { getPublishedPosts } from '@utils/posts';
 const posts = await getPublishedPosts('link');
 ---
 
-<BaseLayout title="Links" description="읽고 짧게 남긴 것들" sidebar>
+<BaseLayout title="Links" description="읽은 것과 읽을 것에 짧게 달아두는 메모" sidebar>
   <h1 class="archive-title">Links</h1>
-  <p class="intro">읽고 짧게 남긴 것 {posts.length}개.</p>
+  <p class="intro">읽은 것과 읽을 것에 짧게 달아두는 메모 {posts.length}개.</p>
   <PostStream posts={posts} empty="아직 남긴 링크가 없습니다." />
 </BaseLayout>
