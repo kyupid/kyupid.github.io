@@ -8,7 +8,7 @@ export const SITE = {
   description: '개발과 관련된 것들을 기록합니다.',
   // Sidebar Highlights, by post id. Titles are read from the posts themselves,
   // so renaming a post can't leave a stale label here.
-  highlights: [19, 18, 16, 17],
+  highlights: [19, 18, 14],
   social: {
     linkedin: 'https://www.linkedin.com/in/kywkyu/',
   },
