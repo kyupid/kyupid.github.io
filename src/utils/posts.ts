@@ -56,10 +56,10 @@ export function getDateFromId(id: string): string {
   return match ? match[1] : '';
 }
 
-/** English long date with ordinal, e.g. "22nd July 2026". */
-export function formatDate(date: string): string {
+/** "22nd" / "July" / "2026", or null when the date doesn't parse. */
+function getDateParts(date: string) {
   const d = new Date(date + 'T00:00:00');
-  if (Number.isNaN(d.getTime())) return date;
+  if (Number.isNaN(d.getTime())) return null;
   const day = d.getDate();
   const suffix =
     day % 10 === 1 && day !== 11
@@ -69,8 +69,40 @@ export function formatDate(date: string): string {
         : day % 10 === 3 && day !== 13
           ? 'rd'
           : 'th';
-  const month = d.toLocaleString('en-US', { month: 'long' });
-  return `${day}${suffix} ${month} ${d.getFullYear()}`;
+  return {
+    day: `${day}${suffix}`,
+    month: d.toLocaleString('en-US', { month: 'long' }),
+    year: String(d.getFullYear()),
+  };
+}
+
+/** English long date with ordinal, e.g. "22nd July 2026". */
+export function formatDate(date: string): string {
+  const parts = getDateParts(date);
+  return parts ? `${parts.day} ${parts.month} ${parts.year}` : date;
+}
+
+/** Two halves of a date range, so each keeps its own <time datetime>. */
+export interface DateRange {
+  from: string;
+  /** Absent when the range is a single day. */
+  to?: string;
+}
+
+/**
+ * The span a thread covers, writing whatever the two ends share only once:
+ *
+ *   20th – 26th August 2026                 same month
+ *   20th August – 3rd September 2026        same year
+ *   28th December 2026 – 4th January 2027   neither
+ */
+export function formatDateRange(start: string, end: string): DateRange {
+  if (start === end) return { from: formatDate(start) };
+  const a = getDateParts(start);
+  const b = getDateParts(end);
+  if (!a || !b || a.year !== b.year) return { from: formatDate(start), to: formatDate(end) };
+  if (a.month !== b.month) return { from: `${a.day} ${a.month}`, to: `${b.day} ${b.month} ${b.year}` };
+  return { from: a.day, to: `${b.day} ${b.month} ${b.year}` };
 }
 
 export function getReadingTime(body: string) {
@@ -145,8 +177,6 @@ export async function getThreadPosts(thread: string): Promise<Post[]> {
 /** A stream row: one post, plus where it sits in its thread when it has one. */
 export interface StreamItem {
   post: Post;
-  /** 1-based position of this note in its thread, chronological. */
-  threadIndex: number;
   /** Notes in the thread. 1 when the post isn't threaded. */
   threadTotal: number;
   /** The whole thread, newest first. Just [post] when it isn't threaded. */
@@ -215,7 +245,8 @@ export function getPostUrls(posts: Post[]): Map<string, string> {
  *
  * The cost is that a new note doesn't lift its thread back up the stream — it
  * stays where the thread began. The feed still carries each note as its own
- * item, and the "1/3" marker grows, so a new thought isn't silent.
+ * item, and the row's date range and count both grow, so a new thought isn't
+ * silent.
  */
 export function collapseThreads(posts: Post[]): StreamItem[] {
   const threads = groupByThread(posts);
@@ -223,14 +254,14 @@ export function collapseThreads(posts: Post[]): StreamItem[] {
   for (const post of posts) {
     const key = post.data.thread;
     if (!key) {
-      items.push({ post, threadIndex: 1, threadTotal: 1, notes: [post] });
+      items.push({ post, threadTotal: 1, notes: [post] });
       continue;
     }
     const notes = threads.get(key) ?? [post];
     // The row belongs at the opening note, so the date shown is the date of
     // the note shown.
     if (getThreadOpener(notes).id !== post.id) continue;
-    items.push({ post, threadIndex: 1, threadTotal: notes.length, notes });
+    items.push({ post, threadTotal: notes.length, notes });
   }
   return items;
 }

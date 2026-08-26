@@ -195,10 +195,12 @@ a:hover { color: var(--link-hover); }
 /* Full-strength text, not muted: on the timeline this paragraph is the content
    (a link's whole note), so greying it out buries what people came to read. */
 .entry-excerpt { color: var(--text); margin: 6px 0 0; font-size: 0.95rem; }
+/* The dash between a folded thread's first and last date. */
+.date-sep { opacity: 0.5; margin: 0 4px; }
 .entry-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
 .entry-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-/* "2/2" — this row is the newest note of a thread, and there are older ones
-   behind the permalink. Only rendered once a thread has a second note. */
+/* "노트 3" — how many notes stand behind this row. Only rendered once a thread
+   has a second note. */
 .entry-thread {
   margin-left: auto; flex: none; font-size: 0.72rem; color: var(--muted);
   text-decoration: none; border: 1px solid var(--tag-border); border-radius: 999px;
