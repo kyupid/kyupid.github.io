@@ -22,12 +22,27 @@ interface Props {
   dateDisplay: string;
   words: number;
   tags: string[];
+  /** Set when the body is a thread timeline, which carries its own dates. */
+  threaded?: boolean;
   older: Adjacent | null;
   newer: Adjacent | null;
 }
 
-const { title, slug, type, link, description, image, dateISO, dateDisplay, words, tags, older, newer } =
-  Astro.props;
+const {
+  title,
+  slug,
+  type,
+  link,
+  description,
+  image,
+  dateISO,
+  dateDisplay,
+  words,
+  tags,
+  threaded = false,
+  older,
+  newer,
+} = Astro.props;
 const wordStr = words.toLocaleString('en-US');
 
 // A link is a couple of sentences about someone else's writing. It keeps a
@@ -48,11 +63,13 @@ const isLink = type === 'link';
       )
     }
     <div class="post-meta">
-      <time datetime={dateISO}>{dateDisplay}</time>
+      {/* A thread dates each note on its own row, so the header would only
+          repeat one of them. */}
+      {!threaded && <time datetime={dateISO}>{dateDisplay}</time>}
       {
         isLink ? (
           <>
-            <span class="dot">·</span>
+            {!threaded && <span class="dot">·</span>}
             <a class="post-source" href={link}>
               {getLinkHost(link!)}
             </a>

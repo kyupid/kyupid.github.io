@@ -3,6 +3,7 @@ id: 24
 type: link
 title: "여덟 단어"
 link: https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=318155709
+thread: eight-words
 image: /images/links/eight-words.jpg
 tags: [책, 생각]
 ---

@@ -20,6 +20,13 @@ const posts = defineCollection({
       title: z.string(),
       // The source URL. Required for `type: link`, unused otherwise.
       link: z.string().url().optional(),
+      // Opt-in thread key, e.g. `eight-words`. Links sharing one render as a
+      // single chronological timeline on each of their permalinks — a second
+      // thought about the same book becomes a new post, not an edit of the old
+      // one. Deliberately not derived from `link`: the source URL can change
+      // while the thread doesn't, and two notes on one URL can be separate
+      // threads.
+      thread: z.string().optional(),
       description: z.string().optional(),
       tags: z.array(z.string()).default([]),
       image: z.string().optional(),

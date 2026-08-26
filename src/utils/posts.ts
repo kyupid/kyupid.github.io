@@ -133,6 +133,18 @@ export async function getPublishedPosts(type?: PostType): Promise<Post[]> {
 }
 
 /**
+ * Published posts sharing a thread key, oldest first — the order the timeline
+ * reads in. Built on getPublishedPosts so a hidden or draft note can't reach
+ * the page through a sibling's permalink.
+ */
+export async function getThreadPosts(thread: string): Promise<Post[]> {
+  const links = await getPublishedPosts('link');
+  return links
+    .filter((p) => p.data.thread === thread)
+    .sort((a, b) => getDateFromId(a.id).localeCompare(getDateFromId(b.id)) || a.data.id - b.data.id);
+}
+
+/**
  * Previous (older) and next (newer) post relative to the given slug, staying
  * within the same type — otherwise "다음 글" jumps from an essay to a
  * two-sentence link and back.

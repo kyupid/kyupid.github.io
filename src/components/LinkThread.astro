@@ -1,0 +1,51 @@
+---
+import { render } from 'astro:content';
+import { getPostPath, getDateFromId, formatDate, type Post } from '@utils/posts';
+
+interface Props {
+  /** Posts of one thread, oldest first. */
+  posts: Post[];
+  /** Collection id of the post whose permalink we're on. */
+  currentId: string;
+}
+
+const { posts, currentId } = Astro.props;
+
+// Each note is rendered here rather than in the page so the page keeps passing
+// a single slot to PostLayout.
+const items = await Promise.all(
+  posts.map(async (post) => {
+    const { Content } = await render(post);
+    const date = getDateFromId(post.id);
+    return {
+      Content,
+      date,
+      display: formatDate(date),
+      href: getPostPath(post),
+      isCurrent: post.id === currentId,
+    };
+  }),
+);
+---
+
+<ol class="thread">
+  {
+    items.map((item) => (
+      <li class:list={['thread-item', item.isCurrent && 'is-current']}>
+        <a
+          class="thread-date"
+          href={item.href}
+          aria-current={item.isCurrent ? 'page' : undefined}
+        >
+          <time datetime={item.date}>{item.display}</time>
+        </a>
+        {item.isCurrent && <span class="thread-here">현재 글</span>}
+        {/* Every note in the thread is on every sibling permalink, so index
+            only the one this URL is actually about. */}
+        <div class="thread-body" data-pagefind-ignore={item.isCurrent ? undefined : 'all'}>
+          <item.Content />
+        </div>
+      </li>
+    ))
+  }
+</ol>

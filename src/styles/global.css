@@ -247,6 +247,30 @@ a:hover { color: var(--link-hover); }
 .link-post .post-title a::after { content: ' ↗'; font-size: 0.8em; color: var(--muted); }
 .post-source { color: var(--muted); }
 
+/* ---------- link thread ---------- */
+/* One book, several thoughts months apart: a thin rule down the left, a dot per
+   note, the date as that note's permalink. The border sits on the item rather
+   than the list so the last one can stop its line at the last dot instead of
+   trailing past the final paragraph. */
+.thread { list-style: none; margin: 0; padding: 0; }
+.thread-item { position: relative; padding: 0 0 30px 20px; border-left: 1px solid var(--rule); }
+.thread-item:last-child { padding-bottom: 0; border-left-color: transparent; }
+.thread-item::before {
+  content: ''; position: absolute; left: -4px; top: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--tag-border);
+}
+/* The note you arrived at: marked on its dot and date rather than by boxing
+   the whole item. */
+.thread-item.is-current::before { background: var(--link); border-color: var(--link); }
+.thread-date { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; text-decoration: none; }
+.thread-date:hover { color: var(--link); text-decoration: underline; }
+.thread-item.is-current .thread-date { color: var(--text); font-weight: 600; }
+.thread-here { margin-left: 8px; font-size: 0.72rem; color: var(--muted); }
+.thread-body { margin-top: 8px; }
+.thread-body > :first-child { margin-top: 0; }
+.thread-body > :last-child { margin-bottom: 0; }
+
 /* ---------- comments (giscus) ---------- */
 .comments { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); }
 .comments-title { font-size: 0.82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px; }
@@ -295,6 +319,7 @@ a:hover { color: var(--link-hover); }
   .post-content h2 { font-size: 1.26rem; margin-top: 32px; }
   .post-content h3 { font-size: 1.06rem; }
   .entry-title { font-size: 1.18rem; }
+  .thread-item { padding-left: 16px; padding-bottom: 26px; }
   .entry.has-thumb { grid-template-columns: 1fr 96px; gap: 14px; }
   .entry-thumb img { width: 96px; height: 68px; }
   .adjacent { flex-direction: column; gap: 14px; }
