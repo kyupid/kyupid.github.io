@@ -195,7 +195,16 @@ a:hover { color: var(--link-hover); }
 /* Full-strength text, not muted: on the timeline this paragraph is the content
    (a link's whole note), so greying it out buries what people came to read. */
 .entry-excerpt { color: var(--text); margin: 6px 0 0; font-size: 0.95rem; }
-.entry-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.entry-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.entry-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+/* "2/2" — this row is the newest note of a thread, and there are older ones
+   behind the permalink. Only rendered once a thread has a second note. */
+.entry-thread {
+  margin-left: auto; flex: none; font-size: 0.72rem; color: var(--muted);
+  text-decoration: none; border: 1px solid var(--tag-border); border-radius: 999px;
+  padding: 1px 8px; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.entry-thread:hover { color: var(--link); border-color: var(--link); }
 .entry-tags span { font-size: 0.74rem; color: var(--muted); }
 .entry-tags span::before { content: '#'; opacity: 0.6; }
 /* Thumbnail column: only present when the post has an image, so text-only
@@ -220,8 +229,10 @@ a:hover { color: var(--link-hover); }
    card. The shape is unpredictable, so fit the whole image in the box instead
    of cropping a band out of the middle of a portrait cover. */
 .entry.is-link .entry-thumb img { object-fit: contain; background: var(--bg); padding: 3px; }
-.entry-host { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
-.entry-host::after { content: ' ↗'; opacity: 0.7; }
+.entry-host { font-size: 0.78rem; margin-top: 3px; }
+.entry-host a { color: var(--muted); text-decoration: none; }
+.entry-host a:hover { color: var(--link); text-decoration: underline; }
+.entry-host a::after { content: ' ↗'; opacity: 0.7; }
 
 /* ---------- sidebar ---------- */
 .sidebar { display: flex; flex-direction: column; gap: 30px; font-size: 0.88rem; position: sticky; top: 24px; }
@@ -246,6 +257,14 @@ a:hover { color: var(--link-hover); }
 .link-post .post-title a:hover { color: var(--link); }
 .link-post .post-title a::after { content: ' ↗'; font-size: 0.8em; color: var(--muted); }
 .post-source { color: var(--muted); }
+/* Bounded by height, so a portrait book cover and a wide header card both land
+   at a sensible size without a per-post decision. */
+.link-cover { display: inline-block; margin: 0 0 24px; line-height: 0; }
+.link-cover img {
+  display: block; max-height: 200px; max-width: 100%; width: auto;
+  border: 1px solid var(--rule); border-radius: 6px; background: var(--bg);
+}
+.link-cover:hover img { border-color: var(--link); }
 
 /* ---------- link thread ---------- */
 /* One book, several thoughts months apart: a thin rule down the left, a dot per
@@ -253,20 +272,19 @@ a:hover { color: var(--link-hover); }
    than the list so the last one can stop its line at the last dot instead of
    trailing past the final paragraph. */
 .thread { list-style: none; margin: 0; padding: 0; }
-.thread-item { position: relative; padding: 0 0 30px 20px; border-left: 1px solid var(--rule); }
+.thread-item { position: relative; padding: 0 0 30px 20px; border-left: 1px solid var(--rule); scroll-margin-top: 24px; }
 .thread-item:last-child { padding-bottom: 0; border-left-color: transparent; }
 .thread-item::before {
   content: ''; position: absolute; left: -4px; top: 8px;
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--bg); border: 1px solid var(--tag-border);
 }
-/* The note you arrived at: marked on its dot and date rather than by boxing
-   the whole item. */
-.thread-item.is-current::before { background: var(--link); border-color: var(--link); }
+/* Arriving on #note-31 marks that note, on its dot and date rather than by
+   boxing the item. No JS: the fragment does the scrolling, :target the rest. */
+.thread-item:target::before { background: var(--link); border-color: var(--link); }
 .thread-date { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; text-decoration: none; }
 .thread-date:hover { color: var(--link); text-decoration: underline; }
-.thread-item.is-current .thread-date { color: var(--text); font-weight: 600; }
-.thread-here { margin-left: 8px; font-size: 0.72rem; color: var(--muted); }
+.thread-item:target .thread-date { color: var(--text); font-weight: 600; }
 .thread-body { margin-top: 8px; }
 .thread-body > :first-child { margin-top: 0; }
 .thread-body > :last-child { margin-bottom: 0; }

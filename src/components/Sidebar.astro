@@ -1,11 +1,12 @@
 ---
 import { SITE } from '@config';
-import { getPublishedPosts, getPostPath, getDateFromId, formatDate } from '@utils/posts';
+import { getPublishedPosts, getPostUrls, getDateFromId, formatDate } from '@utils/posts';
 
 // Resolve the configured ids to real posts, so a highlight can never point at
 // a hidden or deleted post and a renamed post updates its own label.
 const posts = await getPublishedPosts();
 const byId = new Map(posts.map((p) => [p.data.id, p]));
+const urls = getPostUrls(posts);
 const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !== undefined);
 ---
 
@@ -36,7 +37,7 @@ const highlights = SITE.highlights.map((id) => byId.get(id)).filter((p) => p !==
             const date = getDateFromId(p.id);
             return (
               <li>
-                <a href={getPostPath(p)}>{p.data.title}</a>
+                <a href={urls.get(p.id)!}>{p.data.title}</a>
                 <time class="side-date" datetime={date}>
                   {formatDate(date)}
                 </time>

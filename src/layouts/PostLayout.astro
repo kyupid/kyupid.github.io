@@ -83,6 +83,17 @@ const isLink = type === 'link';
       }
     </div>
 
+    {
+      /* Links get their source's image here: a book cover or a header card is
+         what the note is about, and the stream already shows it. Entries don't,
+         because their `image` is just the first picture in the body. */
+      isLink && image && (
+        <a class="link-cover" href={link}>
+          <img src={image} alt="" />
+        </a>
+      )
+    }
+
     <div class="post-content" data-pagefind-body>
       <slot />
     </div>

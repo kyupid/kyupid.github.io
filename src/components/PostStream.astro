@@ -1,11 +1,12 @@
 ---
 import {
-  getPostPath,
+  getPostUrls,
   getDateFromId,
   formatDate,
   getExcerpt,
   getOgImage,
   getLinkHost,
+  collapseThreads,
   type Post,
 } from '@utils/posts';
 
@@ -16,14 +17,18 @@ interface Props {
 
 const { posts, empty = '아직 글이 없습니다.' } = Astro.props;
 
-const items = posts.map((p) => {
+const urls = getPostUrls(posts);
+
+const items = collapseThreads(posts).map(({ post: p, threadIndex, threadTotal, notes }) => {
   const date = getDateFromId(p.id);
   const isLink = p.data.type === 'link';
   return {
     isLink,
-    // A link's title goes straight to the source, so its date carries the permalink.
-    permalink: getPostPath(p),
-    href: isLink ? p.data.link! : getPostPath(p),
+    // The title stays on the site: a link's note is worth reading before its
+    // source, and a thread's other notes only exist behind this permalink.
+    // The "링크" chip is what leaves for the source.
+    permalink: urls.get(p.id)!,
+    source: isLink ? p.data.link! : null,
     host: isLink ? getLinkHost(p.data.link!) : null,
     title: p.data.title,
     date,
@@ -31,10 +36,16 @@ const items = posts.map((p) => {
     // Links run two or three sentences, so show the whole note rather than a teaser.
     body: isLink ? getExcerpt(p.body || '', 400) : p.data.description || getExcerpt(p.body || ''),
     tags: p.data.tags,
+    // "1/2": this row is where a two-note thread started. Only shown once a
+    // thread has a second note behind it.
+    threadIndex,
+    threadTotal,
     // Undefined for text-only posts: those render without a thumbnail rather
     // than falling back to the shared OG card. A link only gets one if its
-    // frontmatter names an image saved under public/images/links/.
-    thumb: getOgImage(p),
+    // frontmatter names an image saved under public/images/links/. A folded
+    // thread looks across its notes: the book cover belongs to the subject, so
+    // it shouldn't vanish because the newest note didn't repeat it.
+    thumb: notes.map(getOgImage).find(Boolean),
   };
 });
 ---
@@ -49,22 +60,35 @@ const items = posts.map((p) => {
           <div class="entry-main">
             <div class="entry-date">
               <time datetime={e.date}>{e.display}</time>
-              {e.isLink && (
-                <a class="entry-kind" href={e.permalink}>
+              {e.source && (
+                <a class="entry-kind" href={e.source}>
                   링크
                 </a>
               )}
             </div>
-            <a class="entry-title" href={e.href}>
+            <a class="entry-title" href={e.permalink}>
               {e.title}
             </a>
-            {e.host && <div class="entry-host">{e.host}</div>}
+            {e.host && (
+              <div class="entry-host">
+                <a href={e.source!}>{e.host}</a>
+              </div>
+            )}
             {e.body && <p class="entry-excerpt">{e.body}</p>}
-            {e.tags.length > 0 && (
-              <div class="entry-tags">
-                {e.tags.map((t) => (
-                  <span>{t}</span>
-                ))}
+            {(e.tags.length > 0 || e.threadTotal > 1) && (
+              <div class="entry-foot">
+                {e.tags.length > 0 && (
+                  <div class="entry-tags">
+                    {e.tags.map((t) => (
+                      <span>{t}</span>
+                    ))}
+                  </div>
+                )}
+                {e.threadTotal > 1 && (
+                  <a class="entry-thread" href={e.permalink}>
+                    {e.threadIndex}/{e.threadTotal}
+                  </a>
+                )}
               </div>
             )}
           </div>

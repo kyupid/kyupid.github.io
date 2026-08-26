@@ -1,13 +1,15 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostStream from '@components/PostStream.astro';
-import { getPublishedPosts } from '@utils/posts';
+import { getPublishedPosts, collapseThreads } from '@utils/posts';
 
 const posts = await getPublishedPosts('link');
+// Count what the stream actually shows: a thread is one row, not one per note.
+const rows = collapseThreads(posts).length;
 ---
 
 <BaseLayout title="Links" description="읽은 것과 읽을 것에 짧게 달아두는 메모" sidebar>
   <h1 class="archive-title">Links</h1>
-  <p class="intro">읽은 것과 읽을 것에 짧게 달아두는 메모 {posts.length}개.</p>
+  <p class="intro">읽은 것과 읽을 것에 짧게 달아두는 메모 {rows}개.</p>
   <PostStream posts={posts} empty="아직 남긴 링크가 없습니다." />
 </BaseLayout>

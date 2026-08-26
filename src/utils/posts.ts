@@ -139,9 +139,100 @@ export async function getPublishedPosts(type?: PostType): Promise<Post[]> {
  */
 export async function getThreadPosts(thread: string): Promise<Post[]> {
   const links = await getPublishedPosts('link');
-  return links
-    .filter((p) => p.data.thread === thread)
-    .sort((a, b) => getDateFromId(a.id).localeCompare(getDateFromId(b.id)) || a.data.id - b.data.id);
+  return links.filter((p) => p.data.thread === thread).sort(compareChrono);
+}
+
+/** A stream row: one post, plus where it sits in its thread when it has one. */
+export interface StreamItem {
+  post: Post;
+  /** 1-based position of this note in its thread, chronological. */
+  threadIndex: number;
+  /** Notes in the thread. 1 when the post isn't threaded. */
+  threadTotal: number;
+  /** The whole thread, newest first. Just [post] when it isn't threaded. */
+  notes: Post[];
+}
+
+/** Groups posts by thread key. Each list keeps the order it was given. */
+function groupByThread(posts: Post[]): Map<string, Post[]> {
+  const threads = new Map<string, Post[]>();
+  for (const post of posts) {
+    const key = post.data.thread;
+    if (!key) continue;
+    const notes = threads.get(key);
+    if (notes) notes.push(post);
+    else threads.set(key, [post]);
+  }
+  return threads;
+}
+
+/** Chronological order: by date, then by id when two notes share a day. */
+function compareChrono(a: Post, b: Post): number {
+  return getDateFromId(a.id).localeCompare(getDateFromId(b.id)) || a.data.id - b.data.id;
+}
+
+/**
+ * The note a thread starts from. That note's permalink is the whole thread's
+ * page; the later notes are anchors on it, not pages of their own. Order of
+ * the input doesn't matter — callers hold thread lists in both directions.
+ */
+export function getThreadOpener(notes: Post[]): Post {
+  return notes.reduce((first, note) => (compareChrono(note, first) < 0 ? note : first));
+}
+
+/** Fragment id for one note inside its thread page, e.g. "note-31". */
+export function getNoteAnchor(post: Post): string {
+  return `note-${post.data.id}`;
+}
+
+/**
+ * Canonical URL per post, keyed by collection id. A thread renders as one page
+ * at its opening note's permalink, so a later note resolves to an anchor on
+ * that page rather than a URL of its own. Everything that links to a post —
+ * the stream, the sidebar, the feed — goes through this, so no link can point
+ * at a page the build doesn't emit.
+ */
+export function getPostUrls(posts: Post[]): Map<string, string> {
+  const openers = new Map<string, Post>();
+  for (const [key, notes] of groupByThread(posts)) openers.set(key, getThreadOpener(notes));
+  const urls = new Map<string, string>();
+  for (const post of posts) {
+    const opener = post.data.thread ? openers.get(post.data.thread) : undefined;
+    urls.set(
+      post.id,
+      !opener || opener.id === post.id
+        ? getPostPath(post)
+        : `${getPostPath(opener)}#${getNoteAnchor(post)}`,
+    );
+  }
+  return urls;
+}
+
+/**
+ * Folds each thread down to one row for the stream pages: the note it started
+ * from, at its own date. Laying every note out would show the same book three
+ * times, and the thread page is one click away.
+ *
+ * The cost is that a new note doesn't lift its thread back up the stream — it
+ * stays where the thread began. The feed still carries each note as its own
+ * item, and the "1/3" marker grows, so a new thought isn't silent.
+ */
+export function collapseThreads(posts: Post[]): StreamItem[] {
+  const threads = groupByThread(posts);
+  const items: StreamItem[] = [];
+  for (const post of posts) {
+    const key = post.data.thread;
+    if (!key) {
+      items.push({ post, threadIndex: 1, threadTotal: 1, notes: [post] });
+      continue;
+    }
+    const notes = threads.get(key) ?? [post];
+    // The row belongs at the opening note, so the date shown is the date of
+    // the note shown.
+    if (getThreadOpener(notes).id !== post.id) continue;
+    items.push({ post, threadIndex: 1, threadTotal: notes.length, notes });
+  }
+  return items;
 }
 
 /**

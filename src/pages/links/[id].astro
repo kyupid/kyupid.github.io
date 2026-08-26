@@ -5,6 +5,7 @@ import LinkThread from '@components/LinkThread.astro';
 import {
   getPublishedPosts,
   getThreadPosts,
+  getThreadOpener,
   getDateFromId,
   formatDate,
   getWordCount,
@@ -13,22 +14,34 @@ import {
   assertUniqueIds,
 } from '@utils/posts';
 
+// A thread is one page, not one page per note: the notes after the first are
+// anchors on the opening note's permalink. So only openers and unthreaded
+// links get a route here — see getPostUrls, which every link on the site
+// resolves through.
 export async function getStaticPaths() {
   await assertUniqueIds();
   const posts = await getPublishedPosts('link');
-  return posts.map((post) => ({ params: { id: String(post.data.id) }, props: { post } }));
+  const pages = await Promise.all(
+    posts.map(async (post) => {
+      const thread = post.data.thread ? await getThreadPosts(post.data.thread) : [post];
+      return { post, thread, isOpener: getThreadOpener(thread).id === post.id };
+    }),
+  );
+  return pages
+    .filter((p) => p.isOpener)
+    .map(({ post, thread }) => ({ params: { id: String(post.data.id) }, props: { post, thread } }));
 }
 
-const { post } = Astro.props;
+const { post, thread } = Astro.props;
 const { Content } = await render(post);
 const dateISO = getDateFromId(post.id);
 
-// A thread that still holds one note reads better as a plain link post: the
-// timeline only earns its line and dots once there's a second thought to
-// compare against. Metadata stays this post's either way — the siblings are
-// related notes on this page, not part of what it is.
-const thread = post.data.thread ? await getThreadPosts(post.data.thread) : [];
+// One note isn't a timeline yet: it reads better as a plain link post, and the
+// line and dots start earning their place at the second note.
 const threaded = thread.length > 1;
+// The page is the thread, so its share card can come from any note — the book
+// cover usually sits on the first one.
+const image = thread.map(getOgImage).find(Boolean);
 ---
 
 {/* Links get no prev/next: PostLayout drops that nav for them anyway. */}
@@ -38,7 +51,7 @@ const threaded = thread.length > 1;
   type={post.data.type}
   link={post.data.link}
   description={post.data.description}
-  image={getOgImage(post)}
+  image={image}
   dateISO={dateISO}
   dateDisplay={formatDate(dateISO)}
   words={getWordCount(post.body || '')}
@@ -47,5 +60,5 @@ const threaded = thread.length > 1;
   older={null}
   newer={null}
 >
-  {threaded ? <LinkThread posts={thread} currentId={post.id} /> : <Content />}
+  {threaded ? <LinkThread notes={thread} /> : <Content />}
 </PostLayout>
