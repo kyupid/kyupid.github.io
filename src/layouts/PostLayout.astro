@@ -134,5 +134,8 @@ const isLink = type === 'link';
 
   {!isLink && <Comments term={slug} />}
 
-  {!isLink && <ScrollProgress />}
+  {/* Links get it too: a thread runs long enough to want the ride back up,
+      and the button only appears past 400px, so a two-sentence note never
+      shows one. */}
+  <ScrollProgress />
 </BaseLayout>
