@@ -1,0 +1,54 @@
+---
+import { getMaterialPath, type Material } from '@utils/materials';
+import { formatDate } from '@utils/posts';
+
+interface Props {
+  materials: Material[];
+  empty?: string;
+}
+
+const { materials, empty = '아직 올린 자료가 없습니다.' } = Astro.props;
+
+const cards = materials.map((m) => ({
+  href: getMaterialPath(m),
+  title: m.data.title,
+  description: m.data.description,
+  thumb: m.data.thumb,
+  dateISO: m.data.date,
+  display: formatDate(m.data.date),
+  tags: m.data.tags,
+}));
+---
+
+{
+  cards.length === 0 ? (
+    <p class="intro">{empty}</p>
+  ) : (
+    <ul class="material-grid">
+      {cards.map((c) => (
+        <li class="material-card">
+          <a href={c.href}>
+            <div class="material-preview">
+              {c.thumb ? (
+                <img src={c.thumb} alt="" loading="lazy" />
+              ) : (
+                /* No screenshot: show the title large in the preview slot, so a
+                   card without one still reads as that material rather than as
+                   a blank frame. */
+                <span class="material-preview-title">{c.title}</span>
+              )}
+            </div>
+            <div class="material-body">
+              <h2 class="material-title">{c.title}</h2>
+              <p class="material-desc">{c.description}</p>
+              <div class="material-meta">
+                <time datetime={c.dateISO}>{c.display}</time>
+                {c.tags.length > 0 && <span class="material-tags">{c.tags.map((t) => '#' + t).join(' ')}</span>}
+              </div>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

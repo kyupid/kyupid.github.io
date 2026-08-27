@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MaterialGrid from '@components/MaterialGrid.astro';
+import { getPublishedMaterials } from '@utils/materials';
+
+const materials = await getPublishedMaterials();
+---
+
+<BaseLayout title="Materials" description="설명할 때 꺼내 쓰는 자료 모음" wide>
+  <h1 class="archive-title">Materials</h1>
+  <p class="intro">
+    이야기하다가 바로 열어서 보여줄 수 있게 만들어 둔 자료 {materials.length}개. 공식 발표 자료는
+    아니고, 한 가지를 한 화면으로 설명하는 것들입니다.
+  </p>
+
+  <MaterialGrid materials={materials} />
+</BaseLayout>

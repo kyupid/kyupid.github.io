@@ -2,16 +2,22 @@
 import { SITE } from '@config';
 import Search from './Search.astro';
 import Social from './Social.astro';
+import { getPublishedMaterials } from '@utils/materials';
 
 // Mark the archive we're currently on. trailingSlash is 'always', so the
 // pathname is "/links/" rather than "/links".
 const path = Astro.url.pathname;
 // Timeline points at '/' rather than its own URL: the home page already is the
 // mixed stream, and a second URL with identical content would just split it.
+// Materials only joins the nav once there's something behind it: a tab that
+// opens on an empty grid reads as an unfinished site. It appears on its own
+// with the first material, so there's nothing to remember to turn on.
+const hasMaterials = (await getPublishedMaterials()).length > 0;
 const nav = [
   { href: '/', label: 'Timeline' },
   { href: '/entries/', label: 'Entries' },
   { href: '/links/', label: 'Links' },
+  ...(hasMaterials ? [{ href: '/materials/', label: 'Materials' }] : []),
 ];
 ---
 

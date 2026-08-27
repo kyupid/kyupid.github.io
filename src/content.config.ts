@@ -39,4 +39,43 @@ const posts = defineCollection({
     }),
 });
 
-export const collections = { posts };
+// Standalone explainers, shown as a grid at /materials/ rather than in the
+// stream. Their point is to be openable mid-conversation: one page that
+// explains one thing without the surrounding blog.
+//
+// Two body shapes share the collection:
+//   embed — a self-contained HTML page under public/, framed by the material
+//           page. This is how a Claude artifact lands here unedited.
+//   mdx   — the file's own body, rendered like a post.
+const materials = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/materials' }),
+  schema: z.object({
+    title: z.string(),
+    // Shown on the grid card and used as the page description. Also the only
+    // text pagefind sees for an embedded material, since it can't read into
+    // the iframe — worth writing properly.
+    description: z.string(),
+    // In frontmatter, not the filename: the grid is browsed by subject, so the
+    // date is a detail on the card rather than the sort key that names the file.
+    // YAML turns an unquoted 2026-08-27 into a Date, so both shapes are accepted
+    // and normalized here rather than making every file remember the quotes.
+    date: z
+      .union([z.string(), z.date()])
+      .transform((v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v))
+      .refine((v) => /^\d{4}-\d{2}-\d{2}$/.test(v), {
+        message: 'date 는 YYYY-MM-DD 형식이어야 합니다.',
+      }),
+    tags: z.array(z.string()).default([]),
+    // Path under public/, e.g. /materials/argus-concurrency.html. When set, the
+    // material page frames this file instead of rendering the body.
+    embed: z.string().optional(),
+    // Grid thumbnail. Without one the card falls back to showing its title
+    // large, the way an artifact with no preview does.
+    thumb: z.string().optional(),
+    // Held at the front of the grid: the ones reached for most often.
+    pinned: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { posts, materials };

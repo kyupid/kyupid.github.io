@@ -1,0 +1,127 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import {
+  getPublishedMaterials,
+  getMaterialSlug,
+  getMaterialPath,
+  getAdjacentMaterials,
+} from '@utils/materials';
+import { formatDate } from '@utils/posts';
+
+export async function getStaticPaths() {
+  const materials = await getPublishedMaterials();
+  return materials.map((m) => ({ params: { slug: getMaterialSlug(m) }, props: { material: m } }));
+}
+
+const { material } = Astro.props;
+const { title, description, date, tags, embed, thumb } = material.data;
+
+const all = await getPublishedMaterials();
+const { prev, next } = getAdjacentMaterials(all, material.id);
+// An embedded material has no body of its own, so only the MDX kind renders one.
+const Content = embed ? null : (await render(material)).Content;
+---
+
+{/* A framed material was designed for a wide viewport; an MDX one is prose. */}
+<BaseLayout title={title} description={description} image={thumb} wide={!!embed}>
+  <article class="material">
+    <h1 class="post-title">{title}</h1>
+    <div class="post-meta">
+      <time datetime={date}>{formatDate(date)}</time>
+      {
+        embed && (
+          <>
+            <span class="dot">·</span>
+            <a class="material-open" href={embed} target="_blank" rel="noopener noreferrer">
+              전체 화면으로 열기
+            </a>
+          </>
+        )
+      }
+    </div>
+
+    {
+      /* The description is the only text pagefind can index for an embedded
+         material: it doesn't read into the frame. */
+      embed && <p class="material-lede" data-pagefind-body>{description}</p>
+    }
+
+    {
+      embed ? (
+        /* Same-origin iframe. The material keeps its own stylesheet and can't
+           collide with the site's, which is what lets an artifact land here
+           unedited. Height is measured from the loaded document, since a frame
+           has no intrinsic one. */
+        <div class="material-frame">
+          <iframe src={embed} title={title} scrolling="no" />
+        </div>
+      ) : (
+        <div class="post-content" data-pagefind-body>
+          <Content />
+        </div>
+      )
+    }
+
+    {
+      tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map((t) => (
+            <span>{'#' + t}</span>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      (prev || next) && (
+        <nav class="adjacent">
+          {prev ? (
+            <a class="prev" href={getMaterialPath(prev)}>
+              <span class="lbl">이전 자료</span>
+              {prev.data.title}
+            </a>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <a class="next" href={getMaterialPath(next)}>
+              <span class="lbl">다음 자료</span>
+              {next.data.title}
+            </a>
+          ) : (
+            <span />
+          )}
+        </nav>
+      )
+    }
+
+    <nav class="material-back">
+      <a href="/materials/">← Materials</a>
+    </nav>
+  </article>
+
+  {
+    embed && (
+      <script is:inline>
+        // Grow the frame to its content instead of scrolling inside a fixed box:
+        // a material is read top to bottom like the rest of the page. Re-measured
+        // on resize because a responsive material reflows.
+        document.querySelectorAll('.material-frame iframe').forEach((frame) => {
+          const fit = () => {
+            try {
+              const doc = frame.contentDocument;
+              if (!doc) return;
+              frame.style.height = doc.documentElement.scrollHeight + 'px';
+            } catch {
+              // Cross-origin: leave the CSS fallback height in place.
+            }
+          };
+          frame.addEventListener('load', fit);
+          window.addEventListener('resize', fit);
+          fit();
+        });
+      </script>
+    )
+  }
+</BaseLayout>
