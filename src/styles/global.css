@@ -270,20 +270,34 @@ a:hover { color: var(--link-hover); }
 
 /* ---------- link thread ---------- */
 /* One book, several thoughts months apart: a thin rule down the left, a dot per
-   note, the date as that note's permalink. The border sits on the item rather
-   than the list so the last one can stop its line at the last dot instead of
-   trailing past the final paragraph. */
+   note, the date as that note's permalink. The line and the dot belong to the
+   rail rather than the item, because the rail is also a link to the note and a
+   1px border can't be aimed at: it takes the whole left gutter as its hit area,
+   and owning the line lets :hover colour it without reaching up to a parent. */
 .thread { list-style: none; margin: 0; padding: 0; }
-.thread-item { position: relative; padding: 0 0 30px 20px; border-left: 1px solid var(--rule); scroll-margin-top: 24px; }
-.thread-item:last-child { padding-bottom: 0; border-left-color: transparent; }
-.thread-item::before {
+.thread-item { position: relative; padding: 0 0 30px 20px; scroll-margin-top: 24px; }
+.thread-item:last-child { padding-bottom: 0; }
+.thread-rail {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 20px;
+  border-left: 1px solid var(--rule);
+}
+.thread-rail::before {
   content: ''; position: absolute; left: -4px; top: 8px;
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--bg); border: 1px solid var(--tag-border);
 }
+/* Hovering either half of a note's handle lights up the whole handle, so it
+   reads as one target. Guarded on real pointers: on a touchscreen :hover
+   sticks after the tap that already navigated. */
+@media (hover: hover) {
+  .thread-rail:hover,
+  .thread-item:has(> .thread-date:hover) .thread-rail { border-left-color: var(--link); }
+  .thread-rail:hover::before,
+  .thread-item:has(> .thread-date:hover) .thread-rail::before { background: var(--link); border-color: var(--link); }
+}
 /* Arriving on #note-31 marks that note, on its dot and date rather than by
    boxing the item. No JS: the fragment does the scrolling, :target the rest. */
-.thread-item:target::before { background: var(--link); border-color: var(--link); }
+.thread-item:target .thread-rail::before { background: var(--link); border-color: var(--link); }
 .thread-date { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; text-decoration: none; }
 .thread-date:hover { color: var(--link); text-decoration: underline; }
 .thread-item:target .thread-date { color: var(--text); font-weight: 600; }
@@ -340,6 +354,7 @@ a:hover { color: var(--link-hover); }
   .post-content h3 { font-size: 1.06rem; }
   .entry-title { font-size: 1.18rem; }
   .thread-item { padding-left: 16px; padding-bottom: 26px; }
+  .thread-rail { width: 16px; }
   .entry.has-thumb { grid-template-columns: 1fr 96px; gap: 14px; }
   .entry-thumb img { width: 96px; height: 68px; }
   .adjacent { flex-direction: column; gap: 14px; }

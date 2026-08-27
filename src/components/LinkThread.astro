@@ -31,6 +31,9 @@ const items = await Promise.all(
       /* The date is a fragment link, not a permalink: a note has no page of its
          own, so sharing one scrolls into this thread and :target marks it. */
       <li class="thread-item" id={item.anchor}>
+        {/* The rail repeats that same link over the line and the dot, so the
+            timeline itself is clickable and not just the date text. */}
+        <a class="thread-rail" href={`#${item.anchor}`} aria-hidden="true" tabindex={-1} />
         <a class="thread-date" href={`#${item.anchor}`}>
           <time datetime={item.date}>{item.display}</time>
         </a>
