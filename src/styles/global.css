@@ -353,6 +353,10 @@ a:hover { color: var(--link-hover); }
 .material-lede { color: var(--muted); margin: 0 0 22px; }
 .material-frame { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; background: var(--bg); }
 .material-frame iframe { display: block; width: 100%; height: 70vh; border: 0; }
+/* A material that fills its own viewport (a slide deck) has no document height
+   to grow to, so the frame holds the shape it was designed at instead. */
+.material-frame.fixed { aspect-ratio: var(--material-aspect); }
+.material-frame.fixed iframe { height: 100%; }
 .material-open { color: var(--muted); }
 .material-open:hover { color: var(--link); }
 .material-back { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 0.9rem; }

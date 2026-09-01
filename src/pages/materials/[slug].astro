@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { material } = Astro.props;
-const { title, description, date, tags, embed, thumb } = material.data;
+const { title, description, date, tags, embed, aspect, thumb } = material.data;
 
 const all = await getPublishedMaterials();
 const { prev, next } = getAdjacentMaterials(all, material.id);
@@ -52,8 +52,12 @@ const Content = embed ? null : (await render(material)).Content;
         /* Same-origin iframe. The material keeps its own stylesheet and can't
            collide with the site's, which is what lets an artifact land here
            unedited. Height is measured from the loaded document, since a frame
-           has no intrinsic one. */
-        <div class="material-frame">
+           has no intrinsic one — unless the material set an aspect, which a
+           page that fills its own viewport (a deck) needs instead. */
+        <div
+          class:list={['material-frame', aspect && 'fixed']}
+          style={aspect ? `--material-aspect: ${aspect}` : undefined}
+        >
           <iframe src={embed} title={title} scrolling="no" />
         </div>
       ) : (
@@ -107,7 +111,7 @@ const Content = embed ? null : (await render(material)).Content;
         // Grow the frame to its content instead of scrolling inside a fixed box:
         // a material is read top to bottom like the rest of the page. Re-measured
         // on resize because a responsive material reflows.
-        document.querySelectorAll('.material-frame iframe').forEach((frame) => {
+        document.querySelectorAll('.material-frame:not(.fixed) iframe').forEach((frame) => {
           const fit = () => {
             try {
               const doc = frame.contentDocument;

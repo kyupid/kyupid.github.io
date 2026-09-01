@@ -69,6 +69,10 @@ const materials = defineCollection({
     // Path under public/, e.g. /materials/argus-concurrency.html. When set, the
     // material page frames this file instead of rendering the body.
     embed: z.string().optional(),
+    // Aspect ratio for an embedded material's frame, e.g. "16/9". Set it when
+    // the embedded page fills its viewport instead of flowing top to bottom —
+    // a slide deck has no document height to grow the frame to.
+    aspect: z.string().optional(),
     // Grid thumbnail. Without one the card falls back to showing its title
     // large, the way an artifact with no preview does.
     thumb: z.string().optional(),
