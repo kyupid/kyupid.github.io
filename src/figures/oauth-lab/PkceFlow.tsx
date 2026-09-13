@@ -1,7 +1,7 @@
 import { Figure, ArrowDefs } from "./shared";
 
 /**
- * PKCE — 앞으로는 해시(challenge)만 보내고, 원본(verifier)은 브라우저를 거치지 않는다.
+ * PKCE. 앞으로는 해시(challenge)만 보내고, 원본(verifier)은 브라우저를 거치지 않는다.
  * 그래서 code를 훔쳐도 토큰으로 바꾸지 못한다.
  */
 export default function PkceFlow() {
@@ -123,8 +123,8 @@ export default function PkceFlow() {
         strokeDasharray="4 3"
       />
       <text x={34} y={147} fontSize="12" fill="#1f6feb">
-        front channel — /authorize 로{" "}
-        <tspan fontWeight="700">challenge 만</tspan> 간다. 공격자가 볼 수 있다.
+        front channel: /authorize로 <tspan fontWeight="700">challenge 만</tspan>{" "}
+        간다. 공격자가 볼 수 있다.
       </text>
 
       <rect
@@ -137,7 +137,7 @@ export default function PkceFlow() {
         stroke="var(--text)"
       />
       <text x={34} y={203} fontSize="12" fill="var(--text)">
-        back channel — /token에 <tspan fontWeight="700">verifier</tspan>.
+        back channel: /token에 <tspan fontWeight="700">verifier</tspan>.
         브라우저를 거치지 않는다.
       </text>
 

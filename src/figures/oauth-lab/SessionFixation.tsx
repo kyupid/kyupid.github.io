@@ -1,7 +1,7 @@
 import { Figure, ArrowDefs, COLORS } from "./shared";
 
 /**
- * 로그인 CSRF(세션 고정) — 공격자가 자기 code를 피해자에게 흘려,
+ * 로그인 CSRF(세션 고정). 공격자가 자기 code를 피해자에게 흘려,
  * 피해자의 앱 세션을 공격자 계정에 묶는다. state가 이 연결을 끊는다.
  */
 export default function SessionFixation() {
@@ -14,7 +14,7 @@ export default function SessionFixation() {
       <ArrowDefs id="sf" />
 
       <text x={20} y={18} fontSize="12" fill={COLORS.evil} fontWeight="700">
-        방어 없음 — 공격 성공
+        방어 없음: 공격 성공
       </text>
 
       {/* 1 */}
@@ -127,7 +127,7 @@ export default function SessionFixation() {
         fontSize="11.5"
         fill="var(--muted)"
       >
-        화면은 "로그인 완료" — 이후 입력은 전부 bob 것
+        화면은 "로그인 완료", 이후 입력은 전부 bob 것
       </text>
 
       {/* 방어 */}

@@ -1,17 +1,17 @@
 import { Figure } from "./shared";
 
-/** 인증 / 위임된 인가 / 방어 — 세 층의 관계. */
+/** 인증, 위임된 인가, 방어의 세 층 관계. */
 export default function AuthLayers() {
   const rows = [
     {
       y: 20,
-      title: "인증 — 누구인가",
+      title: "인증: 누구인가",
       body: "OIDC · id_token (aud = 앱, nonce, auth_time)",
       fill: "var(--accent-soft)",
     },
     {
       y: 92,
-      title: "위임된 인가 — 무엇을 할 수 있나",
+      title: "위임된 인가: 무엇을 할 수 있나",
       body: "OAuth 2.0 / 2.1 · access token (aud = 리소스서버, scope)",
       fill: "var(--code-bg)",
     },

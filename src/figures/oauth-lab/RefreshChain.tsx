@@ -1,7 +1,7 @@
 import { Figure, ArrowDefs, COLORS } from "./shared";
 
 /**
- * refresh token 회전과 재사용 감지 — 정상 흐름은 한 줄로만 뻗고,
+ * refresh token 회전과 재사용 감지. 정상 흐름은 한 줄로만 뻗고,
  * 이미 쓴 마디가 다시 나타나면(분기) 그 계열 전체를 폐기한다.
  */
 export default function RefreshChain() {
@@ -40,7 +40,7 @@ export default function RefreshChain() {
 
       {/* 정상 */}
       <text x={20} y={22} fontSize="12" fontWeight="700" fill={COLORS.app}>
-        정상 — 한 줄로만 뻗는다
+        정상: 한 줄로만 뻗는다
       </text>
       {node(20, 34, "RT1", true)}
       <line
@@ -71,7 +71,7 @@ export default function RefreshChain() {
 
       {/* 탈취 */}
       <text x={20} y={118} fontSize="12" fontWeight="700" fill={COLORS.evil}>
-        탈취 — 지나간 마디가 다시 나타난다
+        탈취: 지나간 마디가 다시 나타난다
       </text>
       {node(20, 130, "RT1", true)}
       <line
