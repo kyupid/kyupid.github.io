@@ -1,0 +1,71 @@
+---
+/**
+ * 글쓴이가 대화 중에 직접 던진 질문·깨달음을 채팅 말풍선으로 보여준다.
+ * 본문 인용(>)이 "글이 요약해주는 말"이라면 이쪽은 "내가 그때 한 말"이다.
+ * 사용: <Ask>refresh token이 털려도 …</Ask>
+ */
+interface Props {
+  /** 스크린리더에 읽히는 화자 이름. 아바타에는 첫 글자만 나온다. */
+  who?: string;
+}
+const { who = "나" } = Astro.props;
+---
+
+<div class="ask">
+  <div class="ask-bubble">
+    <span class="ask-sr">{who}의 질문:</span>
+    <slot />
+  </div>
+  <div class="ask-avatar" aria-hidden="true">{who}</div>
+</div>
+
+<style>
+  .ask {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin: 1.9rem 0;
+  }
+  .ask-bubble {
+    max-width: min(88%, 34rem);
+    padding: 0.8rem 1.05rem;
+    border: 1px solid var(--rule);
+    border-radius: 16px 16px 4px 16px;
+    background: var(--accent-soft);
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.72;
+  }
+  .ask-bubble :global(p) {
+    margin: 0;
+  }
+  .ask-bubble :global(p + p) {
+    margin-top: 0.5rem;
+  }
+  .ask-avatar {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--link);
+    background: var(--accent-soft);
+    color: var(--link);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    /* 말풍선의 각진 모서리(꼬리)와 눈높이를 맞춘다. */
+    margin-bottom: 1px;
+  }
+  .ask-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>
