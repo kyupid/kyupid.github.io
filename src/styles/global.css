@@ -188,7 +188,56 @@ a:hover { color: var(--link-hover); }
 
 /* ---------- home entry list ---------- */
 .intro { color: var(--muted); margin: 0 0 34px; }
-.entry-list { display: flex; flex-direction: column; gap: 30px; }
+/* The rows carry their own spacing as padding instead of a flex gap: the rail
+   runs the full height of its row, so abutting rows join into one unbroken line
+   down the page. A gap would cut it once per entry. */
+.entry-list { display: flex; flex-direction: column; }
+/* Every row sits on the rail — entries and links alike, because the page is a
+   single timeline. A thin rule down the left gutter, a dot beside the date. The
+   line and the dot belong to the rail rather than the row, because the rail is
+   also a link to the permalink and a 1px border can't be aimed at: it takes the
+   whole gutter as its hit area. Absolutely positioned, so it stays clear of the
+   thumbnail grid. */
+.entry { position: relative; padding: 0 0 30px 20px; }
+/* Only the very last row on the page closes the line; a month boundary is not
+   the end of the timeline, so the last row of a month keeps its spacing. */
+.month-group:last-child .entry:last-child { padding-bottom: 0; }
+.entry-rail {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 20px;
+  border-left: 1px solid var(--rule);
+}
+/* The month the rows below belong to, parked out in the page margin. The box
+   spans its month and the span inside it sticks, so "26.09" holds while that
+   month scrolls and is pushed up by the next one — the number changes as you
+   scroll with no scroll handler, just position: sticky.
+   Drawn only where the margin is genuinely wide enough (the wrap is 1080px, so
+   that takes ~1240px of viewport). Below that it's dropped rather than squeezed
+   into the text: every row already carries its own date. */
+.month-group { position: relative; }
+.month-mark { display: none; }
+@media (min-width: 1240px) {
+  .month-mark {
+    display: block; position: absolute; top: 0; height: 100%;
+    right: calc(100% + 30px); white-space: nowrap; pointer-events: none;
+  }
+  .month-mark > span {
+    position: sticky; top: 24px; display: block;
+    font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; color: var(--muted); opacity: 0.45;
+  }
+}
+.entry-rail::before {
+  content: ''; position: absolute; left: -4px; top: 7px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--tag-border);
+}
+/* Anywhere in the row lights its rail, so the dot reads as that row's marker
+   rather than as a separate control. Guarded on real pointers: on a touchscreen
+   :hover sticks after the tap that already navigated. */
+@media (hover: hover) {
+  .entry:hover .entry-rail { border-left-color: var(--link); }
+  .entry:hover .entry-rail::before { background: var(--link); border-color: var(--link); }
+}
 .entry-date { color: var(--muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
 .entry-title { display: inline; font-size: 1.28rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; text-decoration: none; color: var(--text); }
 .entry-title:hover { color: var(--link); }
@@ -416,6 +465,8 @@ a:hover { color: var(--link-hover); }
   .entry-title { font-size: 1.18rem; }
   .thread-item { padding-left: 16px; padding-bottom: 26px; }
   .thread-rail { width: 16px; }
+  .entry { padding-left: 16px; padding-bottom: 26px; }
+  .entry-rail { width: 16px; }
   .entry.has-thumb { grid-template-columns: 1fr 96px; gap: 14px; }
   .entry-thumb img { width: 96px; height: 68px; }
   .adjacent { flex-direction: column; gap: 14px; }

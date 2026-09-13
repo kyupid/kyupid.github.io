@@ -54,6 +54,20 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
     thumb: notes.map(getOgImage).find(Boolean),
   };
 });
+
+// The stream is reverse-chronological, so rows from the same month already sit
+// together: fold each run into a section and give it a "26.09" marker for the
+// margin. Runs rather than a keyed map, so an out-of-order row starts its own
+// section instead of being teleported up the page to join an earlier one.
+type Month = { key: string; label: string; rows: typeof items };
+const months: Month[] = [];
+for (const row of items) {
+  const key = row.date.slice(0, 7); // "2026-09"
+  const open = months[months.length - 1];
+  if (open && open.key === key) open.rows.push(row);
+  // Two-digit year: the margin is narrow and the stream rarely spans centuries.
+  else months.push({ key, label: key && `${key.slice(2, 4)}.${key.slice(5)}`, rows: [row] });
+}
 ---
 
 {
@@ -61,8 +75,23 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
     <p class="intro">{empty}</p>
   ) : (
     <div class="entry-list">
-      {items.map((e) => (
+      {months.map((m) => (
+        <section class="month-group">
+          {/* Decorative: the marker only restates the date every row below it
+              already carries, so it's a margin ornament, not a landmark. */}
+          {m.label && (
+            <div class="month-mark" aria-hidden="true">
+              <span>{m.label}</span>
+            </div>
+          )}
+          {m.rows.map((e) => (
         <article class:list={['entry', e.isLink && 'is-link', e.thumb && 'has-thumb']}>
+          {/* Every row carries the rail — the page is one timeline, so entries
+              and links sit on the same line rather than two. The rail is a
+              decorative duplicate of the permalink, so the whole left gutter,
+              line and dot, is clickable and not just the title; hidden from
+              screen readers and tab order so each entry stays a single stop. */}
+          <a class="entry-rail" href={e.permalink} aria-hidden="true" tabindex={-1} />
           <div class="entry-main">
             <div class="entry-date">
               <time datetime={e.date}>{e.range.from}</time>
@@ -112,6 +141,8 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
             </a>
           )}
         </article>
+          ))}
+        </section>
       ))}
     </div>
   )
