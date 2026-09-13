@@ -1,8 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import ScrollProgress from '@components/ScrollProgress.astro';
+import TableOfContents from '@components/TableOfContents.astro';
 import Comments from '@components/Comments.astro';
 import { getLinkHost, type PostType } from '@utils/posts';
+import type { MarkdownHeading } from 'astro';
 
 interface Adjacent {
   title: string;
@@ -24,6 +26,8 @@ interface Props {
   tags: string[];
   /** Set when the body is a thread timeline, which carries its own dates. */
   threaded?: boolean;
+  /** Body headings. Pass them to park a table of contents in the right gutter. */
+  headings?: MarkdownHeading[];
   older: Adjacent | null;
   newer: Adjacent | null;
 }
@@ -40,6 +44,7 @@ const {
   words,
   tags,
   threaded = false,
+  headings = [],
   older,
   newer,
 } = Astro.props;
@@ -131,6 +136,8 @@ const isLink = type === 'link';
       )
     }
   </article>
+
+  <TableOfContents headings={headings} />
 
   {!isLink && <Comments term={slug} />}
 

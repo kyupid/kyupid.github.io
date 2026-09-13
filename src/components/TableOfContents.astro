@@ -1,0 +1,153 @@
+---
+// Fixed table of contents, parked in the right gutter of an entry page.
+// The reading column stays 800px wide, so this only appears once the viewport
+// has room beside it; below that breakpoint the post reads as it always has.
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+// h2 and h3 only: h1 inside a body is rare and h4 is usually a detail of the
+// paragraph above it, not a place anyone navigates to. The autolink plugin
+// appends a '#' to each heading, which rides along in the collected text.
+const items = headings
+  .filter((h) => h.depth === 2 || h.depth === 3)
+  .map((h) => ({ ...h, text: h.text.replace(/\s*#\s*$/, '') }));
+
+// One entry is a list of one — it points at the page you're already on.
+const show = items.length >= 2;
+---
+
+{
+  show && (
+    <nav class="toc" id="toc" aria-label="목차">
+      <p class="toc-title">목차</p>
+      <ul>
+        {items.map((h) => (
+          <li class:list={['toc-item', `d${h.depth}`]}>
+            <a href={`#${h.slug}`} data-slug={h.slug}>
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    display: none;
+  }
+
+  /* 800px column + a gutter wide enough for 200px of list. Narrower than this
+     and the two would collide. */
+  @media (min-width: 1280px) {
+    .toc {
+      display: block;
+      position: fixed;
+      top: 120px;
+      right: max(20px, calc(50% - 624px));
+      width: 200px;
+      max-height: calc(100vh - 200px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      border-left: 1px solid var(--rule);
+      padding-left: 14px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      z-index: 20;
+    }
+  }
+
+  .toc-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+  .toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-item + .toc-item {
+    margin-top: 7px;
+  }
+  .toc-item.d3 {
+    padding-left: 12px;
+  }
+  .toc a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .toc a:hover {
+    color: var(--link);
+  }
+  .toc a.active {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* A thin scrollbar for a long post's list, so it doesn't draw attention. */
+  .toc {
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+  }
+</style>
+
+<script>
+  const toc = document.getElementById('toc');
+  if (toc) {
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('a[data-slug]'));
+    const entries = links
+      .map((a) => ({ link: a, target: document.getElementById(a.dataset.slug!) }))
+      .filter((e): e is { link: HTMLAnchorElement; target: HTMLElement } => e.target !== null);
+
+    let active: HTMLAnchorElement | null = null;
+
+    const update = () => {
+      // The heading a reader is under is the last one that has passed the top
+      // of the viewport — not the next one coming into view.
+      let current = entries[0];
+      for (const e of entries) {
+        if (e.target.getBoundingClientRect().top <= 120) current = e;
+        else break;
+      }
+      // Past the end of the article, the last heading is the honest answer.
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        current = entries[entries.length - 1];
+      }
+      const next = current?.link ?? null;
+      if (next === active) return;
+      active?.classList.remove('active');
+      next?.classList.add('active');
+      active = next;
+      // Keep the marker in sight when the list is long enough to scroll.
+      if (next && toc.scrollHeight > toc.clientHeight) {
+        next.scrollIntoView({ block: 'nearest' });
+      }
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        update();
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+</script>

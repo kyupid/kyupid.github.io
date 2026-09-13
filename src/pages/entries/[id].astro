@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const all = await getPublishedPosts();
 const { older, newer } = getAdjacentPosts(all, post.id);
@@ -39,6 +39,7 @@ const adj = (p: Post | null) => (p ? { title: p.data.title, url: getPostPath(p) 
   dateDisplay={formatDate(dateISO)}
   words={getWordCount(post.body || '')}
   tags={post.data.tags}
+  headings={headings}
   older={adj(older)}
   newer={adj(newer)}
 >
