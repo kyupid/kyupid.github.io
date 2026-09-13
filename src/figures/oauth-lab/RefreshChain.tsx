@@ -34,7 +34,7 @@ export default function RefreshChain() {
     <Figure
       viewBox="0 0 720 250"
       maxWidth={700}
-      caption="정상이면 체인은 갈라지지 않는다. 이미 소비된 마디가 다시 나타나면 복제됐다는 뜻이므로 계열 전체를 폐기한다."
+      caption="정상이면 체인은 갈라지지 않습니다. 이미 소비된 마디가 다시 나타나면 복제됐다는 뜻이므로 계열 전체를 폐기합니다."
     >
       <ArrowDefs id="rc" />
 
@@ -97,7 +97,7 @@ export default function RefreshChain() {
         markerEnd="url(#rc)"
       />
       <text x={64} y={214} fontSize="11.5" fill={COLORS.evil}>
-        공격자가 RT1 을 다시 사용 → 분기 발생
+        공격자가 RT1을 다시 사용 → 분기 발생
       </text>
 
       <rect
@@ -116,7 +116,7 @@ export default function RefreshChain() {
         누가 진짜 주인인지 알 수 없으므로 둘 다 끊는다.
       </text>
       <text x={356} y={194} fontSize="11.5" fill="var(--muted)">
-        멀쩡하던 RT2 도 함께 죽고, 다시 로그인해야 한다.
+        멀쩡하던 RT2도 함께 죽고, 다시 로그인해야 한다.
       </text>
     </Figure>
   );

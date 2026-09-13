@@ -2,7 +2,7 @@ import { Figure, COLORS } from "./shared";
 
 /**
  * 로그인 한 번 = HTTP 홉 일곱 개. 그중 사용자가 실제로 보는 화면은 두 개뿐이고,
- * access token 이 등장하는 홉은 브라우저가 존재조차 모른다.
+ * access token이 등장하는 홉은 브라우저가 존재조차 모른다.
  */
 const HOPS = [
   {
@@ -70,7 +70,7 @@ export default function ChannelHops() {
     <Figure
       viewBox={`0 0 720 ${h}`}
       maxWidth={700}
-      caption="초록만 사용자가 실제로 보는 화면이다. ⑥에서 access token 이 처음 등장하는데, 브라우저는 그 요청의 존재조차 모른다."
+      caption="초록만 사용자가 실제로 보는 화면입니다. ⑥에서 access token이 처음 등장하는데, 브라우저는 그 요청의 존재조차 모릅니다."
     >
       <text x={20} y={18} fontSize="12" fill="var(--muted)">
         로그인 1회 = HTTP 홉 7개

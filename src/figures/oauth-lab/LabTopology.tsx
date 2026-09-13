@@ -6,7 +6,7 @@ export default function LabTopology() {
     <Figure
       viewBox="0 0 720 232"
       maxWidth={680}
-      caption="로컬에 띄운 네 개의 서버. 사용자가 브라우저로 보는 것은 앱(:9002)과 인가서버(:9000)의 화면뿐이다."
+      caption="로컬에 띄운 네 개의 서버. 사용자가 브라우저로 보는 것은 앱(:9002)과 인가서버(:9000)의 화면뿐입니다."
     >
       <ArrowDefs id="topo" />
 

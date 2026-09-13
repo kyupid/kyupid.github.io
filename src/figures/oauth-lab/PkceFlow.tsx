@@ -2,14 +2,14 @@ import { Figure, ArrowDefs } from "./shared";
 
 /**
  * PKCE — 앞으로는 해시(challenge)만 보내고, 원본(verifier)은 브라우저를 거치지 않는다.
- * 그래서 code 를 훔쳐도 토큰으로 바꾸지 못한다.
+ * 그래서 code를 훔쳐도 토큰으로 바꾸지 못한다.
  */
 export default function PkceFlow() {
   return (
     <Figure
       viewBox="0 0 720 240"
       maxWidth={700}
-      caption="challenge 는 URL 에 실려 다녀도 안전하다. SHA-256 은 되돌릴 수 없어 challenge 로 verifier 를 구할 수 없다."
+      caption="challenge는 URL에 실려 다녀도 안전합니다. SHA-256은 되돌릴 수 없어 challenge로 verifier를 구할 수 없습니다."
     >
       <ArrowDefs id="pkce" />
 
@@ -40,7 +40,7 @@ export default function PkceFlow() {
         fontSize="11"
         fill="var(--muted)"
       >
-        앱만 안다 (쿠키 보관)
+        앱만 안다 (쿠키에 보관)
       </text>
 
       {/* 해시 */}
@@ -98,7 +98,7 @@ export default function PkceFlow() {
         fontSize="11"
         fill="var(--muted)"
       >
-        URL 로 보낸다 (노출됨)
+        URL로 보낸다 (노출됨)
       </text>
 
       <text
@@ -137,7 +137,7 @@ export default function PkceFlow() {
         stroke="var(--text)"
       />
       <text x={34} y={203} fontSize="12" fill="var(--text)">
-        back channel — /token 에 <tspan fontWeight="700">verifier</tspan>.
+        back channel — /token에 <tspan fontWeight="700">verifier</tspan>.
         브라우저를 거치지 않는다.
       </text>
 
@@ -159,7 +159,7 @@ export default function PkceFlow() {
         fontWeight="700"
         fill="var(--text)"
       >
-        code 를 훔쳐도
+        code를 훔쳐도
       </text>
       <text
         x={601}
@@ -168,7 +168,7 @@ export default function PkceFlow() {
         fontSize="12.5"
         fill="var(--muted)"
       >
-        verifier 가 없으면
+        verifier가 없으면
       </text>
       <text
         x={601}
