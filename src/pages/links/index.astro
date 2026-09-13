@@ -8,8 +8,8 @@ const posts = await getPublishedPosts('link');
 const rows = collapseThreads(posts).length;
 ---
 
-<BaseLayout title="Links" description="읽은 것과 읽을 것에 짧게 달아두는 메모" sidebar>
+<BaseLayout title="Links" description="책과 아티클을 읽고 남기는 메모" sidebar>
   <h1 class="archive-title">Links</h1>
-  <p class="intro">읽은 것과 읽을 것에 짧게 달아두는 메모 {rows}개.</p>
+  <p class="intro">책과 아티클을 읽고 남긴 메모 {rows}개.</p>
   <PostStream posts={posts} empty="아직 남긴 링크가 없습니다." />
 </BaseLayout>
