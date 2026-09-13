@@ -2,11 +2,13 @@
 id: 32
 title: "OAuth를 직접 구현하고, 취약점을 심고, 보완하면서 배운 것"
 description: "OAuth 2.0에서 2.1까지, 인가서버·리소스서버·클라이언트를 직접 구현하고 일부러 취약하게 만든 뒤 스스로 공격해보며 각 방어가 왜 존재하는지 익힌 기록입니다."
+image: /images/oauth-build-break-defend/thumb-oauth21.png
 tags: [경험, 보안, OAuth]
 draft: true
 ---
 
 import Image from "@components/Image";
+import Notice from "@components/Notice.astro";
 import {
   LabTopology,
   ChannelHops,
@@ -16,7 +18,12 @@ import {
   AuthLayers,
 } from "@figures/oauth-lab";
 
-> 이 글은 평소와 성격이 다릅니다. OAuth를 익히는 동안 AI에게 던진 질문과 답을 따라가며 글로 재구성했습니다. 실습과 질문은 제가 직접 한 것이지만, 설명의 상당 부분은 그 대화에서 나왔습니다.
+<Notice label="이 글에 대하여">
+  OAuth를 익히는 동안 AI에게 던진 질문과 답을 따라가며 글로 재구성했습니다.
+  실습과 질문은 제가 직접 한 것이지만, 설명은 이 블로그의{" "}
+  <a href="/#ai-policy">AI 사용 방침</a>과 다르게 AI가 쓴 것을 제가
+  다듬었습니다.
+</Notice>
 
 OAuth를 문서로만 읽었을 때는 "code를 토큰으로 바꾼다"는 흐름까지는 알겠는데, **왜 `state`가 필요한지, 왜 2.1이 implicit을 없앴는지, PKCE가 정확히 무엇을 막는지**는 잘 남지 않았습니다. 스펙을 여러 번 읽어도 매번 복붙하던 그 파라미터들이 무슨 일을 하는지 손에 잡히지 않았습니다.
 
