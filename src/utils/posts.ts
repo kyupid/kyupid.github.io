@@ -210,6 +210,15 @@ export function getThreadOpener(notes: Post[]): Post {
   return notes.reduce((first, note) => (compareChrono(note, first) < 0 ? note : first));
 }
 
+/**
+ * The thread's newest note. It's where the thread sits in the stream: a new
+ * thought about the same book lifts the whole thread back to the top, the way
+ * a new post would.
+ */
+export function getThreadLatest(notes: Post[]): Post {
+  return notes.reduce((last, note) => (compareChrono(note, last) > 0 ? note : last));
+}
+
 /** Fragment id for one note inside its thread page, e.g. "note-31". */
 export function getNoteAnchor(post: Post): string {
   return `note-${post.data.id}`;
@@ -239,14 +248,14 @@ export function getPostUrls(posts: Post[]): Map<string, string> {
 }
 
 /**
- * Folds each thread down to one row for the stream pages: the note it started
- * from, at its own date. Laying every note out would show the same book three
- * times, and the thread page is one click away.
+ * Folds each thread down to one row for the stream pages. Laying every note
+ * out would show the same book three times, and the thread page is one click
+ * away.
  *
- * The cost is that a new note doesn't lift its thread back up the stream — it
- * stays where the thread began. The feed still carries each note as its own
- * item, and the row's date range and count both grow, so a new thought isn't
- * silent.
+ * The row is placed at the thread's newest note, so a new thought lifts the
+ * thread back up the stream instead of leaving it buried where it began. What
+ * the row shows is still the opening note — the thread's page lives at that
+ * permalink — with the date range and note count carrying the rest.
  */
 export function collapseThreads(posts: Post[]): StreamItem[] {
   const threads = groupByThread(posts);
@@ -258,10 +267,8 @@ export function collapseThreads(posts: Post[]): StreamItem[] {
       continue;
     }
     const notes = threads.get(key) ?? [post];
-    // The row belongs at the opening note, so the date shown is the date of
-    // the note shown.
-    if (getThreadOpener(notes).id !== post.id) continue;
-    items.push({ post, threadTotal: notes.length, notes });
+    if (getThreadLatest(notes).id !== post.id) continue;
+    items.push({ post: getThreadOpener(notes), threadTotal: notes.length, notes });
   }
   return items;
 }

@@ -8,6 +8,7 @@ import {
   getOgImage,
   getLinkHost,
   collapseThreads,
+  getThreadLatest,
   type Post,
 } from '@utils/posts';
 
@@ -27,6 +28,10 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
   // instead of naming the opening date alone.
   const dates = notes.map((n) => getDateFromId(n.id)).sort();
   const range = formatDateRange(dates[0], dates[dates.length - 1]);
+  // The row is placed by the thread's newest note, so that's the note it
+  // quotes: an opening "읽기 시작했다" under a row that rose for a third
+  // thought would read as stale.
+  const latest = getThreadLatest(notes);
   return {
     isLink,
     // The title stays on the site: a link's note is worth reading before its
@@ -41,10 +46,10 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
     range,
     lastDate: dates[dates.length - 1],
     // Links run two or three sentences, so show the whole note rather than a teaser.
-    body: isLink ? getExcerpt(p.body || '', 400) : p.data.description || getExcerpt(p.body || ''),
+    body: isLink ? getExcerpt(latest.body || '', 400) : p.data.description || getExcerpt(p.body || ''),
     tags: p.data.tags,
-    // "노트 3": how many notes stand behind this row. The row is always the
-    // opening note, so a position like "1/3" would never say anything else.
+    // "노트 3": how many notes stand behind this row. The row stands for the
+    // whole thread, so a position like "1/3" would never say anything else.
     threadTotal,
     // Undefined for text-only posts: those render without a thumbnail rather
     // than falling back to the shared OG card. A link only gets one if its
@@ -59,10 +64,12 @@ const items = collapseThreads(posts).map(({ post: p, threadTotal, notes }) => {
 // together: fold each run into a section and give it a "26.09" marker for the
 // margin. Runs rather than a keyed map, so an out-of-order row starts its own
 // section instead of being teleported up the page to join an earlier one.
+// Keyed on the newest note, since that's what the row is sorted by — a thread
+// that opened in August but was added to in September belongs under 26.09.
 type Month = { key: string; label: string; rows: typeof items };
 const months: Month[] = [];
 for (const row of items) {
-  const key = row.date.slice(0, 7); // "2026-09"
+  const key = row.lastDate.slice(0, 7); // "2026-09"
   const open = months[months.length - 1];
   if (open && open.key === key) open.rows.push(row);
   // Two-digit year: the margin is narrow and the stream rarely spans centuries.
