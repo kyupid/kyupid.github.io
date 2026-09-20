@@ -137,7 +137,7 @@ const isLink = type === 'link';
     }
   </article>
 
-  <TableOfContents headings={headings} />
+  <TableOfContents headings={headings} title={title} />
 
   {!isLink && <Comments term={slug} />}
 

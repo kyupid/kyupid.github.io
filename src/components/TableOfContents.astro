@@ -6,9 +6,11 @@ import type { MarkdownHeading } from 'astro';
 
 interface Props {
   headings: MarkdownHeading[];
+  /** Post title. Slides in above the list once the real h1 has scrolled away. */
+  title: string;
 }
 
-const { headings } = Astro.props;
+const { headings, title } = Astro.props;
 
 // h2 and h3 only: h1 inside a body is rare and h4 is usually a detail of the
 // paragraph above it, not a place anyone navigates to. The autolink plugin
@@ -24,7 +26,12 @@ const show = items.length >= 2;
 {
   show && (
     <nav class="toc" id="toc" aria-label="목차">
-      <p class="toc-title">목차</p>
+      {/* Collapsed while the page's own title is on screen. As that scrolls
+          out, this one grows in and settles at a smaller size, so the reader
+          never loses sight of what they're reading. */}
+      <div class="toc-heading-wrap" id="toc-heading-wrap" aria-hidden="true">
+        <p class="toc-heading">{title}</p>
+      </div>
       <ul>
         {items.map((h) => (
           <li class:list={['toc-item', `d${h.depth}`]}>
@@ -63,13 +70,26 @@ const show = items.length >= 2;
     }
   }
 
-  .toc-title {
-    font-size: 0.72rem;
+  /* --p runs 0 → 1 as the h1 leaves the viewport; the script sets it. */
+  .toc {
+    --p: 0;
+  }
+  .toc-heading-wrap {
+    overflow: hidden;
+    max-height: 0;
+    opacity: var(--p);
+    transform: translateY(calc((1 - var(--p)) * 6px));
+    margin-bottom: calc(var(--p) * 16px);
+  }
+  .toc-heading {
+    margin: 0;
+    color: var(--text);
     font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    /* 1.2rem at the moment it appears, shrinking to 0.95rem once settled. */
+    font-size: calc(0.95rem + (1 - var(--p)) * 0.25rem);
+    text-wrap: balance;
   }
   .toc ul {
     list-style: none;
@@ -113,7 +133,41 @@ const show = items.length >= 2;
 
     let active: HTMLAnchorElement | null = null;
 
+    // Title hand-off: progress is how far the page h1 has scrolled past the
+    // top of the fixed list. It starts when the h1's top reaches the list
+    // and completes 160px later, which is about the time the h1 is fully gone.
+    const h1 = document.querySelector<HTMLElement>('.post-title');
+    const wrap = document.getElementById('toc-heading-wrap');
+    const heading = wrap?.firstElementChild as HTMLElement | null;
+    const TOC_TOP = 120;
+    const RANGE = 160;
+    let lastP = -1;
+    let settledHeight = 0;
+
+    // The wrap opens toward the height the title has once it has finished
+    // shrinking. Measuring at the current, larger size would overshoot and
+    // then bounce the list back up.
+    const measure = () => {
+      if (!wrap || !heading) return;
+      const prev = toc.style.getPropertyValue('--p');
+      toc.style.setProperty('--p', '1');
+      settledHeight = heading.offsetHeight;
+      toc.style.setProperty('--p', prev);
+      lastP = -1;
+    };
+
+    const updateTitle = () => {
+      if (!h1 || !wrap || !heading) return;
+      const passed = TOC_TOP - h1.getBoundingClientRect().top;
+      const p = Math.min(Math.max(passed / RANGE, 0), 1);
+      if (p === lastP) return;
+      lastP = p;
+      toc.style.setProperty('--p', p.toFixed(3));
+      wrap.style.maxHeight = `${p * settledHeight}px`;
+    };
+
     const update = () => {
+      updateTitle();
       // The heading a reader is under is the last one that has passed the top
       // of the viewport — not the next one coming into view.
       let current = entries[0];
@@ -147,7 +201,11 @@ const show = items.length >= 2;
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      measure();
+      onScroll();
+    }, { passive: true });
+    measure();
     update();
   }
 </script>
