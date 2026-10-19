@@ -20,7 +20,7 @@ export const SITE = {
   // post's filename slug, not its numeric URL, so re-numbering a post never
   // orphans its comments. Set repo to '' to turn comments off.
   giscus: {
-    repo: 'kyupid/kyupid.github.io',
+    repo: '',
     repoId: 'R_kgDOR0nw8w',
     category: 'Announcements',
     categoryId: 'DIC_kwDOR0nw884DCWbp',
